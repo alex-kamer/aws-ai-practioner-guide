@@ -16,162 +16,162 @@
 <p class="small progress-summary"></p>
 <p>Source: AWS Certified AI Practitioner exam guide, version 1.4 (AIF-C01). Study aid, so verify against AWS docs.</p>
 <h2><label class="task-check"><input type="checkbox" data-task="2.1"> Studied</label>2.1 Explain the basic concepts of generative AI</h2>
-<p>Generative AI creates new content (text, images, audio, code, video) by learning the statistical patterns of very large training sets and then sampling from those patterns. Full definitions are in the <a href="../cheatsheets/glossary.html">glossary</a>; this section explains how the pieces fit together.</p>
+<p>Generative AI creates new content (text, images, audio, code, video). It learns the patterns in a very large set of training data, then makes new content that follows those patterns. Full definitions are in the <a href="../cheatsheets/glossary.html">glossary</a>. This section shows how the pieces fit together.</p>
 
 <h3>Tokens and tokenization</h3>
-<p>A model never sees raw text. A <strong>tokenizer</strong> first splits text into <strong>tokens</strong>: whole words, word fragments, punctuation, or bytes. Each token maps to an integer ID, and the model works on those IDs. Common words are often one token, while rare words, names, and code are split into several. As a rough English rule of thumb, one token is about three-quarters of a word, but each model family has its own tokenizer, so counts differ between models.</p>
-<p>Tokens matter for three practical reasons. First, <strong>cost</strong>: on-demand pricing is per input token and per output token. Second, <strong>limits</strong>: the context window and maximum output length are measured in tokens. Third, <strong>latency</strong>: the model produces output one token at a time, so longer answers take longer.</p>
-<p>Worked example: a 2,000-token document plus a 100-token instruction is 2,100 input tokens. If the model writes a 300-token summary, you are billed for 2,100 input tokens and 300 output tokens. Output tokens are usually priced higher than input tokens.</p>
+<p>A model never sees raw text. A <strong>tokenizer</strong> (a tool that cuts text into pieces) first splits text into <strong>tokens</strong>. A token can be a whole word, part of a word, punctuation, or bytes. Each token gets an integer ID, and the model works with those IDs. Common words are often one token. Rare words, names, and code are split into several. In English, one token is roughly three-quarters of a word. Each model family has its own tokenizer, so counts differ between models.</p>
+<p>Tokens matter for three practical reasons. First, <strong>cost</strong>: on-demand pricing is per input token and per output token. Second, <strong>limits</strong>: the context window and the maximum output length are counted in tokens. Third, <strong>latency</strong> (wait time): the model writes one token at a time, so longer answers take longer.</p>
+<p>Worked example: a 2,000-token document plus a 100-token instruction is 2,100 input tokens. If the model writes a 300-token summary, you pay for 2,100 input tokens and 300 output tokens. Output tokens usually cost more than input tokens.</p>
 
 <h3>Embeddings and vector similarity</h3>
-<p>An <strong>embedding</strong> is a list of numbers (a vector, often hundreds to thousands of dimensions) produced by an embedding model so that text with similar meaning lands close together in vector space. Think of a map where "refund policy" and "return an item" sit in the same neighborhood even though they share no words, while "weather forecast" is far away.</p>
-<p>"Close" is measured with a distance or similarity function such as cosine similarity or Euclidean distance. To search, you embed the query, then ask a <strong>vector database</strong> for the nearest stored vectors. This is semantic search, and it is the retrieval step in Retrieval Augmented Generation (RAG). Embeddings can also be made for images, so text can be matched to pictures in a multimodal embedding space.</p>
+<p>An <strong>embedding</strong> is a list of numbers (a vector, often hundreds to thousands of dimensions) made by an embedding model. Text with similar meaning gets numbers that sit close together in vector space. Think of a map where "refund policy" and "return an item" are in the same neighborhood even though they share no words. "Weather forecast" is far away.</p>
+<p>"Close" is measured with a distance or similarity function such as cosine similarity or Euclidean distance. To search, you turn the query into an embedding. Then you ask a <strong>vector database</strong> (a store built to find similar vectors) for the nearest stored vectors. This is semantic search (search by meaning). It is also the retrieval step in Retrieval Augmented Generation (RAG). Images can have embeddings too, so text can be matched to pictures in a multimodal embedding space.</p>
 
 <h3>Chunking</h3>
-<p>Documents are too long and too varied to embed as one vector. <strong>Chunking</strong> splits them into passages (for example a few hundred tokens each, often with some overlap) before embedding. Chunks that are too large blur several topics into one vector and waste context window space. Chunks that are too small lose the surrounding meaning. Overlap helps a sentence that straddles a boundary stay retrievable. In Amazon Bedrock Knowledge Bases, chunking is part of the managed ingestion process and you can choose a chunking strategy.</p>
+<p>Documents are too long and cover too many topics to turn into one vector. <strong>Chunking</strong> splits them into smaller passages before embedding. A passage might be a few hundred tokens, often with some overlap. Chunks that are too large mix several topics into one vector and waste space in the context window. Chunks that are too small lose the meaning around them. Overlap keeps a sentence that sits on a boundary easy to find. In Amazon Bedrock Knowledge Bases, chunking is part of the managed ingestion process (it loads your documents for you), and you can choose a chunking strategy.</p>
 
 <h3>Transformers and attention, intuitively</h3>
-<p>Older sequence models read text word by word and struggled with long-range links. The <strong>transformer</strong> architecture uses <strong>self-attention</strong>: for every token, the model computes how much it should "look at" every other token when building its meaning. In "The trophy did not fit in the suitcase because it was too big", attention lets the model weigh that "it" refers to the trophy. Because all tokens can be processed in parallel, transformers train efficiently on large hardware clusters, which is what made today's scale possible.</p>
-<p>An <strong>LLM</strong> is a transformer trained on huge text corpora to predict the next token. Repeating that prediction one token at a time produces whole answers. Summarizing, translating, and answering questions all emerge from this single objective plus instruction tuning.</p>
+<p>Older models read text one word at a time and had trouble linking words that were far apart. The <strong>transformer</strong> design uses <strong>self-attention</strong>. For every token, the model works out how much it should "look at" every other token to understand it. In "The trophy did not fit in the suitcase because it was too big", attention helps the model see that "it" means the trophy. All tokens can be processed at the same time (in parallel). That lets transformers train well on large clusters of hardware, which made today's large models possible.</p>
+<p>An <strong>LLM</strong> (large language model) is a model trained on huge amounts of text to guess the next word (token). It repeats that guess over and over to write a full answer. With extra training to follow instructions, the same skill lets it summarize, translate, and answer questions.</p>
 
 <h3>Diffusion models</h3>
-<p>A diffusion model is trained by taking real images, adding noise step by step until only static remains, and learning to reverse each step. To generate, it starts from pure noise and removes noise repeatedly, guided by a text prompt, until an image appears. Analogy: a sculptor who starts with a rough block and gradually reveals the shape. Diffusion is the main approach behind modern image generation, and similar ideas are used for video. Amazon Titan Image Generator and Stability AI image models on Bedrock are image-generation examples.</p>
+<p>A diffusion model is trained by taking real images and adding noise step by step until only static is left. It then learns to undo each step. To make a new image, it starts from pure noise and removes noise again and again, guided by a text prompt, until an image appears. Analogy: a sculptor who starts with a rough block and slowly reveals the shape. Diffusion is the main method behind modern image generation, and similar ideas are used for video. Amazon Titan Image Generator and Stability AI image models on Bedrock are image-generation examples.</p>
 
 <h3>Multimodal models</h3>
-<p>A <strong>multimodal</strong> model accepts or produces more than one data type, such as text plus images. Examples: describing a chart from a screenshot, answering questions about a photo, or turning a text description into an image. Check the model card in Bedrock for which input and output modalities each model supports, since a text-only LLM cannot read an image.</p>
+<p>A <strong>multimodal</strong> model can take in or produce more than one type of data, such as text plus images. Examples: describing a chart from a screenshot, answering questions about a photo, or turning a text description into an image. Check the model card in Bedrock to see which input and output types each model supports. A text-only LLM cannot read an image.</p>
 
 <h3>Prompts and the context window</h3>
-<p>The <strong>prompt</strong> is everything you send: instructions, examples, retrieved documents, and the user question. The <strong>context window</strong> is the maximum number of tokens (input plus output) the model can consider at once. Anything beyond it is not seen. A model has no memory between calls beyond what you include in the prompt, so a chatbot "remembers" by resending earlier turns. <strong>Prompt engineering</strong> shapes the prompt to get better output without changing the model.</p>
+<p>The <strong>prompt</strong> is everything you send: instructions, examples, retrieved documents, and the user's question. The <strong>context window</strong> is the most tokens (input plus output) the model can handle at once. The model does not see anything past that limit. The model remembers nothing between calls except what you put in the prompt. A chatbot "remembers" by sending the earlier messages again. <strong>Prompt engineering</strong> means writing the prompt carefully to get better output without changing the model.</p>
 
 <h3>Inference parameters: temperature, top-p, top-k</h3>
-<p>At each step the model assigns a probability to every possible next token, then one is sampled. These settings control the sampling:</p>
+<p>At each step, the model gives every possible next token a probability, then picks one at random based on those odds (this is called sampling). These settings control that pick:</p>
 <table>
 <thead><tr><th>Parameter</th><th>What it does</th><th>Typical use</th></tr></thead>
 <tbody>
-<tr><td><strong>Temperature</strong></td><td>Reshapes the probabilities. Low values favor the most likely tokens; high values flatten the distribution.</td><td>Low for factual extraction or code; higher for brainstorming and creative writing</td></tr>
-<tr><td><strong>Top-p</strong></td><td>Samples only from the smallest set of tokens whose probabilities add up to p (for example 0.9).</td><td>Lower p for focused output</td></tr>
-<tr><td><strong>Top-k</strong></td><td>Samples only from the k most likely tokens.</td><td>Lower k for more predictable output</td></tr>
+<tr><td><strong>Temperature</strong></td><td>Changes how spread out the probabilities are. Low values favor the most likely tokens. High values give unlikely tokens a better chance.</td><td>Low for factual extraction or code; higher for brainstorming and creative writing</td></tr>
+<tr><td><strong>Top-p</strong></td><td>Picks only from the smallest group of tokens whose probabilities add up to p (for example 0.9).</td><td>Lower p for focused output</td></tr>
+<tr><td><strong>Top-k</strong></td><td>Picks only from the k most likely tokens.</td><td>Lower k for more predictable output</td></tr>
 </tbody></table>
-<p>These parameters change randomness, not knowledge. A low temperature makes output more repeatable, but it does not make a wrong fact right.</p>
+<p>These settings change randomness, not knowledge. A low temperature makes output more repeatable, but it does not fix a wrong fact.</p>
 
 <h3>Foundation model lifecycle</h3>
 <pre><code>Data selection -&gt; Model selection -&gt; Pre-training -&gt; Fine-tuning -&gt; Evaluation -&gt; Deployment -&gt; Feedback
 </code></pre>
 <ol>
-<li><strong>Data selection:</strong> choose and clean the data, considering quality, diversity, licensing, and privacy.</li>
-<li><strong>Model selection:</strong> pick an architecture or an existing FM that fits modality, size, cost, and latency needs.</li>
-<li><strong>Pre-training:</strong> self-supervised learning on massive unlabeled data. Very expensive, so most organizations skip it and start from an existing FM.</li>
-<li><strong>Fine-tuning:</strong> further training on a smaller, labeled, task- or domain-specific dataset to specialize the model.</li>
-<li><strong>Evaluation:</strong> measure quality with benchmarks, automatic metrics, and human review against your goals.</li>
-<li><strong>Deployment:</strong> serve the model, for example through Bedrock or a SageMaker endpoint, with monitoring and guardrails.</li>
-<li><strong>Feedback:</strong> collect user and monitoring signals to improve prompts, data, and future model versions, which loops back to earlier stages.</li>
+<li><strong>Data selection:</strong> choose and clean the data. Think about quality, variety, licensing, and privacy.</li>
+<li><strong>Model selection:</strong> pick a model design or an existing FM (foundation model) that fits the data type, size, cost, and speed you need.</li>
+<li><strong>Pre-training:</strong> the model teaches itself from a huge amount of unlabeled data (self-supervised learning). This is very expensive, so most organizations skip it and start from an existing FM.</li>
+<li><strong>Fine-tuning:</strong> more training on a smaller, labeled dataset for one task or field, so the model gets better at it.</li>
+<li><strong>Evaluation:</strong> check quality against your goals using benchmarks, automatic metrics, and human review.</li>
+<li><strong>Deployment:</strong> run the model for users, for example through Bedrock or a SageMaker endpoint, with monitoring and guardrails.</li>
+<li><strong>Feedback:</strong> collect signals from users and monitoring to improve prompts, data, and future model versions. This loops back to earlier stages.</li>
 </ol>
 
 <h3>Generative AI use cases</h3>
 <table>
 <thead><tr><th>Use case</th><th>What it looks like</th></tr></thead>
 <tbody>
-<tr><td>Summarization</td><td>Condense call transcripts, long reports, or legal documents</td></tr>
-<tr><td>Chatbots and customer-service agents</td><td>Conversational answers grounded in company knowledge, often with RAG</td></tr>
-<tr><td>Code generation</td><td>Suggest, explain, test, and transform code (for example with Amazon Q Developer)</td></tr>
-<tr><td>Search</td><td>Semantic search over documents using embeddings; natural-language answers instead of link lists</td></tr>
+<tr><td>Summarization</td><td>Shorten call transcripts, long reports, or legal documents</td></tr>
+<tr><td>Chatbots and customer-service agents</td><td>Chat answers based on company knowledge, often with RAG</td></tr>
+<tr><td>Code generation</td><td>Suggest, explain, test, and rewrite code (for example with Amazon Q Developer)</td></tr>
+<tr><td>Search</td><td>Search by meaning over documents using embeddings; plain-language answers instead of lists of links</td></tr>
 <tr><td>Image, audio, and video generation</td><td>Marketing images, voice and music, short video clips</td></tr>
-<tr><td>Translation</td><td>Context-aware translation across languages</td></tr>
-<tr><td>Personalization and recommendation</td><td>Tailored product descriptions, emails, or recommendations per user</td></tr>
+<tr><td>Translation</td><td>Translation between languages that takes context into account</td></tr>
+<tr><td>Personalization and recommendation</td><td>Product descriptions, emails, or recommendations tailored to each user</td></tr>
 </tbody></table>
 
 <div class="callout"><p><strong>Exam tip:</strong> Match the keyword to the concept: "denoising" means diffusion, "numeric representation of meaning" means embedding, "attention" means transformer, "more than one data type" means multimodal, "pay per input/output token" means on-demand.</p></div>
-<div class="callout warn"><p><strong>Common trap:</strong> Pre-training and fine-tuning are not the same. Pre-training builds general ability from unlabeled data; fine-tuning specializes with a smaller labeled dataset. Also, a larger context window does not mean the model remembers earlier conversations.</p></div>
+<div class="callout warn"><p><strong>Common trap:</strong> Pre-training and fine-tuning are not the same. Pre-training builds general skill from unlabeled data. Fine-tuning makes the model better at one job using a smaller labeled dataset. Also, a larger context window does not mean the model remembers earlier conversations.</p></div>
 
 <h3>Key takeaways</h3>
 <ul>
-<li>Text becomes tokens; tokens drive cost, limits, and latency.</li>
-<li>Embeddings place meaning in vector space; chunking prepares documents for embedding.</li>
-<li>Transformers use attention; LLMs predict the next token; diffusion models denoise.</li>
+<li>Text becomes tokens. Tokens affect cost, limits, and latency.</li>
+<li>Embeddings place meaning in vector space. Chunking gets documents ready for embedding.</li>
+<li>Transformers use attention. LLMs predict the next token. Diffusion models remove noise.</li>
 <li>Temperature, top-p, and top-k control randomness only.</li>
-<li>The lifecycle runs from data selection to feedback, and loops.</li>
+<li>The lifecycle runs from data selection to feedback, and then loops back.</li>
 </ul>
 <h2><label class="task-check"><input type="checkbox" data-task="2.2"> Studied</label>2.2 Capabilities and limitations for business problems</h2>
 <h3>Advantages</h3>
 <ul>
-<li><strong>Adaptability:</strong> one foundation model can summarize, classify, translate, and answer questions, steered by prompts, retrieval, or fine-tuning, instead of one custom model per task.</li>
-<li><strong>Responsiveness:</strong> answers arrive in seconds, so support, drafting, and analysis workflows speed up and can run around the clock.</li>
-<li><strong>Simplicity:</strong> a natural-language interface lowers the skill barrier. A prototype can be a prompt and an API call, not a months-long training project.</li>
+<li><strong>Adaptability:</strong> one foundation model can summarize, classify, translate, and answer questions. You steer it with prompts, retrieval, or fine-tuning, so you don't need a separate custom model for each task.</li>
+<li><strong>Responsiveness:</strong> answers arrive in seconds, so support, drafting, and analysis work gets faster and can run around the clock.</li>
+<li><strong>Simplicity:</strong> you use plain language, so you need fewer special skills. A prototype can be a prompt and an API call instead of a months-long training project.</li>
 </ul>
 
 <h3>Limitations and risks</h3>
 <ul>
-<li><strong>Hallucination:</strong> the model optimizes for plausible next tokens, not truth, so it can state invented facts, citations, or API names fluently. Mitigate with RAG, grounding checks, lower temperature, and human review.</li>
-<li><strong>Interpretability:</strong> billions of parameters make it hard to explain why a specific output was produced, which is a problem in regulated decisions.</li>
-<li><strong>Inaccuracy:</strong> outputs can be wrong, outdated (training data has a cutoff), or biased.</li>
-<li><strong>Nondeterminism:</strong> sampling means the same prompt can give different answers. That is fine for brainstorming but awkward for testing and audit.</li>
-<li><strong>Cost:</strong> large models cost money per token and per hour of hosted capacity; long prompts and long answers multiply it.</li>
-<li><strong>Data privacy and security:</strong> sending sensitive data to a model, or leaking it in outputs, creates exposure. Prompt injection is a related risk.</li>
+<li><strong>Hallucination:</strong> the model aims for likely next tokens, not true ones. It can state made-up facts, citations, or API names in a confident tone. To reduce this, use RAG, grounding checks, lower temperature, and human review.</li>
+<li><strong>Interpretability:</strong> with billions of parameters (the numbers the model learned), it is hard to explain why it gave a certain output. This is a problem for regulated decisions.</li>
+<li><strong>Inaccuracy:</strong> outputs can be wrong, out of date (training data has a cutoff), or biased.</li>
+<li><strong>Nondeterminism:</strong> because of sampling, the same prompt can give different answers. That is fine for brainstorming but awkward for testing and audits.</li>
+<li><strong>Cost:</strong> large models cost money per token and per hour of hosted capacity. Long prompts and long answers raise the bill.</li>
+<li><strong>Data privacy and security:</strong> sending sensitive data to a model, or leaking it in outputs, creates risk. Prompt injection (tricking the model with hidden instructions) is a related risk.</li>
 <li><strong>Intellectual property:</strong> training data and generated output can raise copyright and licensing questions.</li>
 </ul>
 
 <h3>Choosing a model for a business problem</h3>
-<p>Start from the problem, not the model. Consider the modality needed (text, image, both), required quality, latency, cost per request, context window size, customization options (prompting, RAG, fine-tuning), language support, and compliance or data-residency constraints. Bigger is not automatically better: a smaller, cheaper model often meets a narrow task, and a large one is justified only when the quality gain pays for itself. Evaluate candidates on your own prompts, for example with Bedrock model evaluation, before committing.</p>
+<p>Start with the problem, not the model. Think about the data type needed (text, image, both), the quality you need, speed, cost per request, context window size, ways to customize (prompting, RAG, fine-tuning), language support, and compliance or data-residency rules. Bigger is not always better. A smaller, cheaper model often handles a narrow task well. Use a large one only when the better quality is worth the price. Test candidates on your own prompts, for example with Bedrock model evaluation, before you commit.</p>
 
 <h3>Measuring business value</h3>
 <table>
 <thead><tr><th>Metric</th><th>What it asks</th><th>Example</th></tr></thead>
 <tbody>
-<tr><td>Efficiency</td><td>Is work faster or cheaper per unit?</td><td>Support handle time drops from 10 to 6 minutes</td></tr>
+<tr><td>Efficiency</td><td>Is work faster or cheaper?</td><td>Support handle time drops from 10 to 6 minutes</td></tr>
 <tr><td>Conversion rate</td><td>Do more visitors buy or sign up?</td><td>Generated product copy lifts checkout rate</td></tr>
-<tr><td>Average revenue per user (ARPU)</td><td>Does each user generate more revenue?</td><td>Personalized recommendations raise basket size</td></tr>
+<tr><td>Average revenue per user (ARPU)</td><td>Does each user bring in more revenue?</td><td>Personalized recommendations raise basket size</td></tr>
 <tr><td>Customer lifetime value</td><td>Do customers stay and spend longer?</td><td>Better service improves retention</td></tr>
-<tr><td>Cross-domain performance</td><td>Does the model perform well across varied tasks and domains?</td><td>One model serves legal, HR, and support teams</td></tr>
+<tr><td>Cross-domain performance</td><td>Does the model do well across many kinds of tasks and fields?</td><td>One model serves legal, HR, and support teams</td></tr>
 <tr><td>Accuracy</td><td>Are outputs correct for the task?</td><td>Share of summaries judged faithful</td></tr>
 </tbody></table>
-<p>Pair a business metric with a technical one. A model with excellent benchmark scores that does not move conversion or efficiency has not delivered value.</p>
+<p>Pair a business metric with a technical one. A model with great benchmark scores that does not improve conversion or efficiency has not added value.</p>
 
-<div class="callout"><p><strong>Exam tip:</strong> Scenario questions usually map a stated goal to a metric: "sell more per visit" is ARPU or conversion, "long-term retention" is customer lifetime value, "save staff time" is efficiency.</p></div>
-<div class="callout warn"><p><strong>Common trap:</strong> Low temperature reduces variation but does not remove hallucination. Only grounding (RAG), verification, and human oversight address wrong facts.</p></div>
+<div class="callout"><p><strong>Exam tip:</strong> Scenario questions usually link a stated goal to a metric: "sell more per visit" is ARPU or conversion, "long-term retention" is customer lifetime value, "save staff time" is efficiency.</p></div>
+<div class="callout warn"><p><strong>Common trap:</strong> Low temperature reduces variation but does not remove hallucination. Only grounding (RAG), checking, and human oversight deal with wrong facts.</p></div>
 
 <h3>Key takeaways</h3>
 <ul>
 <li>Strengths: adaptability, responsiveness, simplicity.</li>
 <li>Weaknesses: hallucination, interpretability, inaccuracy, nondeterminism, cost, privacy, IP.</li>
-<li>Pick models by fit to the task, constraints, and measured business outcomes.</li>
+<li>Pick models by how well they fit the task, the limits you have, and the business results you measure.</li>
 </ul>
 <h2><label class="task-check"><input type="checkbox" data-task="2.3"> Studied</label>2.3 AWS infrastructure and technologies for GenAI apps</h2>
-<p>AWS offers GenAI at several levels of abstraction. A useful mental model: ready-made applications (Amazon Q) at the top, managed model access and building blocks (Bedrock) in the middle, and self-managed model hosting (SageMaker) at the bottom. The higher you go, the less you build and the less control you have.</p>
+<p>AWS offers GenAI at several levels. A simple way to picture it: ready-made apps (Amazon Q) at the top, managed model access and building blocks (Bedrock) in the middle, and self-managed model hosting (SageMaker) at the bottom. The higher you go, the less you build and the less control you have.</p>
 <table>
 <thead><tr><th>Service</th><th>Role</th><th>Choose it when</th></tr></thead>
 <tbody>
-<tr><td><strong>Amazon Bedrock</strong></td><td>Serverless API access to foundation models from several providers, plus Knowledge Bases, Agents, Guardrails, and model evaluation</td><td>You are building your own GenAI application and want managed models</td></tr>
-<tr><td><strong>SageMaker JumpStart</strong></td><td>Hub of pre-trained models and solution templates deployed to endpoints you control</td><td>You need more control over hosting, instance types, or models not offered in Bedrock</td></tr>
-<tr><td><strong>PartyRock</strong></td><td>No-code playground for building small GenAI apps, backed by Bedrock</td><td>You want to experiment or learn without writing code</td></tr>
+<tr><td><strong>Amazon Bedrock</strong></td><td>Serverless API access (no servers to manage) to foundation models from several providers, plus Knowledge Bases, Agents, Guardrails, and model evaluation</td><td>You are building your own GenAI application and want managed models</td></tr>
+<tr><td><strong>SageMaker JumpStart</strong></td><td>A library of pre-trained models and solution templates, deployed to endpoints you control</td><td>You need more control over hosting, instance types, or models not offered in Bedrock</td></tr>
+<tr><td><strong>PartyRock</strong></td><td>A no-code playground for building small GenAI apps, backed by Bedrock</td><td>You want to experiment or learn without writing code</td></tr>
 <tr><td><strong>Amazon Q</strong></td><td>Ready-made GenAI assistants (Business, Developer)</td><td>You want an assistant, not a platform to build one</td></tr>
 <tr><td><strong>Amazon Titan</strong></td><td>AWS's own FM family, available in Bedrock</td><td>You want an AWS-built text, embeddings, or image model</td></tr>
 </tbody></table>
 
 <h3>Amazon Bedrock in depth</h3>
 <ul>
-<li><strong>Model catalog:</strong> one API over models from multiple providers (for example Amazon, Anthropic, Meta, Mistral AI, Cohere, AI21 Labs, Stability AI). You can swap models by changing the model ID, which makes side-by-side comparison easy. Your prompts and data are not used to train the base models offered through Bedrock.</li>
-<li><strong>Knowledge Bases:</strong> managed RAG. You point it at a data source (such as S3); it chunks, embeds, and stores the content in a vector store, then retrieves relevant passages and supplies them to the model at query time. This grounds answers in your current data without retraining.</li>
-<li><strong>Agents:</strong> let a model plan and carry out multistep tasks, such as looking up an order and then issuing a refund, by calling your APIs (through action groups) and optionally consulting a knowledge base.</li>
-<li><strong>Guardrails:</strong> configurable safeguards applied to inputs and outputs, such as content filters, denied topics, word filters, and sensitive-information (PII) filters, and a contextual grounding check against hallucination. They work across models.</li>
-<li><strong>Model evaluation:</strong> compare models or settings using automatic metrics, or human reviewers, on your own datasets.</li>
-<li><strong>Customization:</strong> fine-tuning and continued pre-training for supported models; the result is a custom model.</li>
+<li><strong>Model catalog:</strong> one API for models from many providers (for example Amazon, Anthropic, Meta, Mistral AI, Cohere, AI21 Labs, Stability AI). You can swap models by changing the model ID, so side-by-side comparison is easy. Your prompts and data are not used to train the base models offered through Bedrock.</li>
+<li><strong>Knowledge Bases:</strong> managed RAG. You point it at a data source (such as S3). It splits the content into chunks, embeds them, and stores them in a vector store. At query time it finds the relevant passages and gives them to the model. This bases answers on your current data without retraining.</li>
+<li><strong>Agents:</strong> let a model plan and carry out tasks with several steps, such as looking up an order and then issuing a refund. They do this by calling your APIs (through action groups) and can also check a knowledge base.</li>
+<li><strong>Guardrails:</strong> settings that check inputs and outputs for problems. They include content filters, denied topics, word filters, sensitive-information (PII) filters, and a contextual grounding check against hallucination. They work across models.</li>
+<li><strong>Model evaluation:</strong> compare models or settings on your own datasets, using automatic metrics or human reviewers.</li>
+<li><strong>Customization:</strong> fine-tuning and continued pre-training for supported models. The result is a custom model.</li>
 </ul>
 
 <h3>Other services</h3>
 <ul>
-<li><strong>SageMaker JumpStart:</strong> start from a pre-trained or open model, deploy it to a SageMaker endpoint, optionally fine-tune. You manage endpoint capacity, which gives control but more operational work than Bedrock.</li>
-<li><strong>PartyRock:</strong> build shareable apps by describing them in a browser. It is for experimentation and learning, not production workloads.</li>
-<li><strong>Amazon Q Business:</strong> an assistant for employees that connects to enterprise data sources and answers questions from them, respecting existing user access permissions.</li>
-<li><strong>Amazon Q Developer:</strong> an assistant for software work: code suggestions and generation, explaining and debugging code, and help with AWS questions, available in IDEs and the console.</li>
-<li><strong>Amazon Titan:</strong> includes text generation models, text and multimodal embedding models, and an image generator, all accessed through Bedrock.</li>
+<li><strong>SageMaker JumpStart:</strong> start from a pre-trained or open model, deploy it to a SageMaker endpoint, and optionally fine-tune it. You manage the endpoint capacity. That gives you control but means more operational work than Bedrock.</li>
+<li><strong>PartyRock:</strong> build shareable apps by describing them in a browser. It is for experimenting and learning, not production workloads.</li>
+<li><strong>Amazon Q Business:</strong> an assistant for employees. It connects to company data sources and answers questions from them, while following existing user access permissions.</li>
+<li><strong>Amazon Q Developer:</strong> an assistant for software work. It suggests and generates code, explains and debugs code, and helps with AWS questions. It is available in IDEs and the console.</li>
+<li><strong>Amazon Titan:</strong> includes text generation models, text and multimodal embedding models, and an image generator, all used through Bedrock.</li>
 </ul>
 
 <h3>Why build on AWS</h3>
 <ul>
-<li><strong>Accessibility and lower barrier to entry:</strong> API access and no-code tools mean teams without ML specialists can start.</li>
-<li><strong>Speed to market:</strong> no GPU procurement or model hosting; prototype to production quickly.</li>
-<li><strong>Security:</strong> encryption, IAM access control, private connectivity options, and logging with the usual AWS tooling.</li>
-<li><strong>Compliance:</strong> AWS maintains many compliance programs; you still own your configuration and use of them under the shared responsibility model.</li>
+<li><strong>Accessibility and lower barrier to entry:</strong> API access and no-code tools let teams without ML specialists get started.</li>
+<li><strong>Speed to market:</strong> no GPU buying or model hosting. You can go from prototype to production quickly.</li>
+<li><strong>Security:</strong> encryption, IAM access control, private connectivity options, and logging with the usual AWS tools.</li>
+<li><strong>Compliance:</strong> AWS keeps many compliance programs in place. You still own your own setup and use of them under the shared responsibility model.</li>
 <li><strong>Responsible AI and safety:</strong> built-in controls such as Guardrails.</li>
 <li><strong>Cost-effectiveness:</strong> pay-as-you-go, with options to commit for steady workloads.</li>
 </ul>
@@ -181,21 +181,21 @@
 <thead><tr><th>Option</th><th>How you pay</th><th>Best for</th></tr></thead>
 <tbody>
 <tr><td>On-demand</td><td>Per input and output token (images are priced per image); no commitment</td><td>Variable or unpredictable traffic, prototypes</td></tr>
-<tr><td>Batch</td><td>Submit many prompts as a job and get results later, typically at a lower price than on-demand</td><td>Large offline jobs that are not latency sensitive</td></tr>
-<tr><td>Provisioned throughput</td><td>Reserve model units for an hourly rate, with optional commitment terms</td><td>Steady high-volume workloads needing consistent performance; the standard way to serve custom models</td></tr>
+<tr><td>Batch</td><td>Send many prompts as one job and get results later, usually at a lower price than on-demand</td><td>Large offline jobs where speed does not matter</td></tr>
+<tr><td>Provisioned throughput</td><td>Reserve model units for an hourly rate, with optional commitment terms</td><td>Steady, high-volume workloads that need consistent performance; the standard way to run custom models</td></tr>
 </tbody></table>
-<p>Worked example: a nightly job that classifies 500,000 support tickets can wait until morning, so batch inference is a good fit. A customer chatbot with a steady, heavy load and strict latency expectations may justify provisioned throughput. A prototype used by ten people should be on-demand.</p>
-<p>Other cost and design factors: <strong>Region</strong> (model availability and price vary, and data residency rules may limit where you can run), <strong>redundancy and availability</strong> (design across Availability Zones or Regions as needed), response time, and model size. Cost also scales with prompt length, so trimming prompts and retrieving only relevant chunks saves money.</p>
+<p>Worked example: a nightly job that sorts 500,000 support tickets can wait until morning, so batch inference is a good fit. A customer chatbot with a steady, heavy load and strict speed needs may be worth provisioned throughput. A prototype used by ten people should be on-demand.</p>
+<p>Other cost and design factors: <strong>Region</strong> (model availability and price vary, and data residency rules may limit where you can run), <strong>redundancy and availability</strong> (spread the design across Availability Zones or Regions if needed), response time, and model size. Cost also grows with prompt length, so shorter prompts and retrieving only the relevant chunks save money.</p>
 
 <div class="callout"><p><strong>Exam tip:</strong> "No infrastructure to manage, many models, one API" is Bedrock. "Ground answers in my documents" is Knowledge Bases. "Block harmful or off-topic content" is Guardrails. "Multistep tasks calling APIs" is Agents. "Employees ask questions about internal data" is Q Business. "Help developers write code" is Q Developer.</p></div>
-<div class="callout warn"><p><strong>Common trap:</strong> Do not choose provisioned throughput just because traffic is high-sounding; it is the answer for sustained, predictable load or custom models. Also, PartyRock is not a production platform, and JumpStart is not serverless like Bedrock.</p></div>
+<div class="callout warn"><p><strong>Common trap:</strong> Do not choose provisioned throughput just because traffic sounds high. It is the answer for steady, predictable load or custom models. Also, PartyRock is not a production platform, and JumpStart is not serverless like Bedrock.</p></div>
 
 <h3>Key takeaways</h3>
 <ul>
-<li>Bedrock is the managed, multi-model hub; JumpStart gives more control; Q provides ready-made assistants; PartyRock is for no-code experiments.</li>
+<li>Bedrock is the managed hub for many models. JumpStart gives more control. Q gives ready-made assistants. PartyRock is for no-code experiments.</li>
 <li>Knowledge Bases ground, Agents act, Guardrails protect, evaluation compares.</li>
 <li>Pricing: on-demand per token, batch for offline jobs, provisioned throughput for steady load and custom models.</li>
-<li>AWS value: speed, security, compliance, responsible AI tooling, and flexible cost.</li>
+<li>AWS value: speed, security, compliance, responsible AI tools, and flexible cost.</li>
 </ul>
 
 <div class="quiz-head"><h2 id="quiz" style="flex:1">Self-check questions</h2><span class="score"></span> <button class="quiz-reset">Reset</button></div>
@@ -203,11 +203,11 @@
 <ol class="quiz">
 <li>
 <p class="q">What is a token, and why does it matter for cost?</p>
-<div class="a">A chunk of text the model reads/writes; Bedrock bills per input/output token.</div>
+<div class="a">A piece of text the model reads or writes. Bedrock bills per input and output token.</div>
 </li>
 <li>
 <p class="q">What is an embedding used for?</p>
-<div class="a">Representing meaning as vectors for similarity search (e.g., RAG).</div>
+<div class="a">Turning meaning into vectors so you can search by similarity (e.g., RAG).</div>
 </li>
 <li>
 <p class="q">Which type of model generates images by removing noise?</p>
@@ -231,35 +231,35 @@
 </li>
 <li>
 <p class="q">How do Bedrock and SageMaker JumpStart differ?</p>
-<div class="a">Bedrock is serverless API access to FMs; JumpStart deploys pre-trained models onto endpoints you manage.</div>
+<div class="a">Bedrock is serverless API access to FMs. JumpStart deploys pre-trained models onto endpoints you manage.</div>
 </li>
 <li>
 <p class="q">When would you choose provisioned throughput over on-demand?</p>
-<div class="a">Steady high-volume workloads needing guaranteed throughput, or when using a custom model.</div>
+<div class="a">Steady, high-volume workloads that need guaranteed throughput, or when using a custom model.</div>
 </li>
 <li>
 <p class="q">Which AWS tool is a no-code place to experiment with GenAI apps?</p>
-<div class="a">PartyRock; it is a Bedrock-backed playground meant for experimenting, not production.</div>
+<div class="a">PartyRock. It is a playground backed by Bedrock, meant for experiments, not production.</div>
 </li>
 <li>
 <p class="q">A team wants factual extraction that returns nearly the same answer on every run. Which inference setting should they adjust?</p>
-<div class="a">Lower the temperature (and optionally top-p/top-k); this makes the model favor the most likely tokens, reducing randomness.</div>
+<div class="a">Lower the temperature (and optionally top-p/top-k). The model then favors the most likely tokens, so there is less randomness.</div>
 </li>
 <li>
 <p class="q">A company wants its chatbot to answer from the latest internal policy documents without retraining a model. What should it use?</p>
-<div class="a">Bedrock Knowledge Bases (RAG); it retrieves relevant chunks at query time and supplies them to the model.</div>
+<div class="a">Bedrock Knowledge Bases (RAG). It finds the relevant chunks at query time and gives them to the model.</div>
 </li>
 <li>
 <p class="q">An online retailer measures whether generated recommendations make each shopper spend more. Which metric fits?</p>
-<div class="a">Average revenue per user (ARPU); it tracks revenue generated per customer.</div>
+<div class="a">Average revenue per user (ARPU). It tracks the revenue earned per customer.</div>
 </li>
 <li>
 <p class="q">A bank needs to stop its assistant from discussing investment advice and from echoing account numbers. Which feature helps?</p>
-<div class="a">Bedrock Guardrails; denied topics and sensitive-information filters apply to inputs and outputs.</div>
+<div class="a">Bedrock Guardrails. Denied topics and sensitive-information filters work on inputs and outputs.</div>
 </li>
 <li>
 <p class="q">A firm must classify 500,000 documents overnight, with no need for instant results. Which Bedrock mode is the most cost-aware choice?</p>
-<div class="a">Batch inference; it processes large offline jobs, typically at a lower price than on-demand.</div>
+<div class="a">Batch inference. It handles large offline jobs, usually at a lower price than on-demand.</div>
 </li>
 </ol>
 <h2 id="mcq-practice">Multiple-choice practice</h2>

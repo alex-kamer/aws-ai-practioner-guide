@@ -18,8 +18,8 @@
 <h2><label class="task-check"><input type="checkbox" data-task="1.1"> Studied</label>1.1 Explain basic AI concepts and terminologies</h2>
 
 <h3>The AI / ML / deep learning / generative AI hierarchy</h3>
-<p>These terms are nested like Russian dolls. <strong>Artificial intelligence (AI)</strong> is the widest term: any technique that lets a machine perform tasks we associate with human intelligence. That includes hand-written rule systems (an expert system with thousands of if/then rules is AI). <strong>Machine learning (ML)</strong> is the subset of AI where the system is not given the rules; it <em>infers</em> them from examples. <strong>Deep learning (DL)</strong> is the subset of ML that uses neural networks with many layers, which can learn useful features directly from raw pixels, audio, or text instead of relying on a human to hand-craft them. <strong>Generative AI (GenAI)</strong> is deep learning applied to <em>creating</em> new content (text, images, code, audio) rather than only predicting a label or number. Most GenAI today is built on <strong>foundation models</strong>, very large models pre-trained on broad data and adapted to many tasks.</p>
-<p>Analogy: a traditional program is a recipe you write; ML is a chef who tastes thousands of dishes and works out the recipe; deep learning is a chef who also figures out which flavors matter without being told; generative AI is that chef inventing a brand new dish.</p>
+<p>These terms fit inside each other like Russian dolls. <strong>Artificial intelligence (AI)</strong> is the widest term. It means any technique that lets a machine do tasks we link to human intelligence. That includes hand-written rule systems. An expert system with thousands of if/then rules is AI. <strong>Machine learning (ML)</strong> is the part of AI where nobody gives the system the rules. It <em>works them out</em> from examples. <strong>Deep learning (DL)</strong> is the part of ML that uses neural networks (models made of many layers). These layers can learn useful features straight from raw pixels, audio, or text. A person does not have to design those features by hand. <strong>Generative AI (GenAI)</strong> is deep learning used to <em>create</em> new content, such as text, images, code, or audio. It does more than predict a label or number. Most GenAI today is built on <strong>foundation models</strong>. These are very large models trained first on broad data and then adapted to many tasks.</p>
+<p>Analogy: a traditional program is a recipe you write. ML is a chef who tastes thousands of dishes and works out the recipe. Deep learning is a chef who also figures out which flavors matter without being told. Generative AI is that chef inventing a brand new dish.</p>
 <table>
 <thead>
 <tr><th>Layer</th><th>Key idea</th><th>Example</th></tr>
@@ -33,14 +33,14 @@
 
 <h3>Core terminology</h3>
 <ul>
-<li><strong>Algorithm:</strong> the learning procedure (for example linear regression, decision tree, k-means, neural network training). It is the method, not the result.</li>
-<li><strong>Model:</strong> the artifact produced when an algorithm is run on data: the learned parameters plus the structure that uses them. You deploy a model, not an algorithm.</li>
-<li><strong>Training:</strong> the process of adjusting model parameters to reduce error on training data. <strong>Inference:</strong> using the trained model to make predictions on new data. Training is expensive and occasional; inference happens continuously in production.</li>
-<li><strong>Features and labels:</strong> features are the input variables (square footage, age of house); the label (target) is what you want to predict (sale price). Supervised learning needs labels.</li>
-<li><strong>Bias (in data/models):</strong> systematic unfairness, such as a hiring model trained on historical decisions that favored one group. Do not confuse it with the statistical bias in the bias/variance tradeoff, covered below.</li>
-<li><strong>Fairness:</strong> the model should not produce systematically worse outcomes for particular groups. Measuring it requires comparing performance across groups.</li>
+<li><strong>Algorithm:</strong> the step-by-step method used to learn (for example linear regression, decision tree, k-means, neural network training). It is the method, not the result.</li>
+<li><strong>Model:</strong> what you get after you run an algorithm on data. It holds the learned values (parameters) and the structure that uses them. You deploy a model, not an algorithm.</li>
+<li><strong>Training:</strong> adjusting the model's parameters to cut its errors on the training data. <strong>Inference:</strong> using the trained model to make predictions on new data. Training is costly and happens now and then. Inference happens all the time in production.</li>
+<li><strong>Features and labels:</strong> features are the inputs (square footage, age of house). The label (target) is what you want to predict (sale price). Supervised learning needs labels.</li>
+<li><strong>Bias (in data/models):</strong> unfair results that repeat in a pattern. One example is a hiring model trained on past decisions that favored one group. Do not mix it up with statistical bias in the bias/variance tradeoff, covered below.</li>
+<li><strong>Fairness:</strong> the model should not give worse results to some groups than to others. To measure it, you compare performance across groups.</li>
 <li><strong>Fit:</strong> how well the model captures the real pattern: underfit, good fit, or overfit.</li>
-<li><strong>NLP (natural language processing):</strong> understanding and generating human language (sentiment, translation, entity extraction). <strong>Computer vision:</strong> understanding images and video (object detection, face analysis, OCR). <strong>LLM (large language model):</strong> a very large neural network trained on text to predict the next token, which gives it broad language ability.</li>
+<li><strong>NLP (natural language processing):</strong> understanding and writing human language (sentiment, translation, entity extraction). <strong>Computer vision:</strong> understanding images and video (object detection, face analysis, OCR). <strong>LLM (large language model):</strong> a very large neural network trained on text to guess the next word (token). This gives it broad language skills.</li>
 </ul>
 <p>See the <a href="../cheatsheets/glossary.html">glossary</a> for short definitions.</p>
 
@@ -56,28 +56,28 @@
 <tr><td>Self-supervised</td><td>Unlabeled, but labels are generated from the data itself</td><td>Pre-train on a made-up task</td><td>LLMs predicting the next word; masked-word prediction</td></tr>
 <tr><td>Reinforcement</td><td>No dataset; an agent interacts with an environment</td><td>Maximize cumulative reward</td><td>Robotics, game play, RLHF for LLMs</td></tr>
 </tbody></table>
-<p><strong>Supervised learning</strong> is like studying with an answer key. <em>Classification</em> predicts a category (binary: fraud / not fraud; multiclass: which product category). <em>Regression</em> predicts a continuous number (delivery time, revenue). The same algorithm family often serves both; what differs is the type of label.</p>
-<p><strong>Unsupervised learning</strong> is sorting a pile of unlabeled photos into piles that look alike. <em>Clustering</em> groups similar items (customer segments). <em>Dimensionality reduction</em> compresses many features into fewer while keeping most of the information, useful for visualization and for removing redundant inputs. <em>Anomaly detection</em> flags points that differ from the normal pattern, such as unusual server behavior, often without any labeled examples of failures.</p>
-<p><strong>Self-supervised learning</strong> deserves care because it powers GenAI. Take a sentence, hide the last word, and ask the model to predict it. The &quot;label&quot; comes free from the text itself, so you can train on enormous unlabeled corpora. The pre-trained model is then adapted to specific tasks. <strong>Reinforcement learning</strong> has an agent take actions, receive rewards or penalties, and learn a policy. In <strong>RLHF</strong> (reinforcement learning from human feedback), human preference ratings define the reward used to align an LLM with what people want.</p>
-<div class="callout"><p><strong>Exam tip:</strong> Scenario keywords map directly to learning type: &quot;historical labeled examples&quot; means supervised; &quot;group customers with no predefined categories&quot; means unsupervised clustering; &quot;agent learns through trial and error and rewards&quot; means reinforcement; &quot;predict the next word from unlabeled text&quot; means self-supervised.</p></div>
-<div class="callout warn"><p><strong>Common trap:</strong> Anomaly detection and classification look similar. If you have labeled examples of fraud, it is supervised classification; if you only know what normal looks like, it is unsupervised anomaly detection. Also, clustering assigns groups it discovers; it does not predict pre-defined categories.</p></div>
+<p><strong>Supervised learning</strong> is like studying with an answer key. <em>Classification</em> predicts a category (binary: fraud / not fraud; multiclass: which product category). <em>Regression</em> predicts a continuous number (delivery time, revenue). The same family of algorithms often does both. The only difference is the type of label.</p>
+<p><strong>Unsupervised learning</strong> is like sorting a pile of unlabeled photos into piles that look alike. <em>Clustering</em> groups similar items (customer segments). <em>Dimensionality reduction</em> squeezes many features into fewer ones while keeping most of the information. It helps with visualization and with dropping repeated inputs. <em>Anomaly detection</em> flags points that differ from the normal pattern, such as odd server behavior. It often works without any labeled examples of failures.</p>
+<p><strong>Self-supervised learning</strong> is worth a closer look because it powers GenAI. Take a sentence, hide the last word, and ask the model to guess it. The &quot;label&quot; comes free from the text itself, so you can train on huge piles of unlabeled text. The pre-trained model is then adapted to specific tasks. <strong>Reinforcement learning</strong> has an agent take actions, get rewards or penalties, and learn a policy (a set of rules for what to do). In <strong>RLHF</strong> (reinforcement learning from human feedback), people rate which answers they prefer. Those ratings become the reward that steers an LLM toward what people want.</p>
+<div class="callout"><p><strong>Exam tip:</strong> Keywords in a scenario point to the learning type. &quot;Historical labeled examples&quot; means supervised. &quot;Group customers with no predefined categories&quot; means unsupervised clustering. &quot;Agent learns through trial and error and rewards&quot; means reinforcement. &quot;Predict the next word from unlabeled text&quot; means self-supervised.</p></div>
+<div class="callout warn"><p><strong>Common trap:</strong> Anomaly detection and classification look alike. If you have labeled examples of fraud, it is supervised classification. If you only know what normal looks like, it is unsupervised anomaly detection. Also, clustering finds groups on its own. It does not predict pre-defined categories.</p></div>
 
 <h3>Data types and data quality</h3>
-<p>Data is <strong>labeled</strong> (has the answer attached) or <strong>unlabeled</strong>. It is also <strong>structured</strong> (rows and columns in a database), <strong>semi-structured</strong> (JSON, XML), or <strong>unstructured</strong> (free text, images, audio, video). Common ML shapes are <em>tabular</em>, <em>time-series</em> (ordered observations, where order matters and you must not shuffle across time), <em>image</em>, and <em>text</em>.</p>
-<p>The rule is &quot;garbage in, garbage out&quot;: model quality is capped by data quality. Watch for:</p>
+<p>Data is <strong>labeled</strong> (has the answer attached) or <strong>unlabeled</strong>. It is also <strong>structured</strong> (rows and columns in a database), <strong>semi-structured</strong> (JSON, XML), or <strong>unstructured</strong> (free text, images, audio, video). Common ML data shapes are <em>tabular</em>, <em>time-series</em> (observations in time order, so you must not shuffle them across time), <em>image</em>, and <em>text</em>.</p>
+<p>The rule is &quot;garbage in, garbage out.&quot; A model can never be better than its data. Watch for:</p>
 <ul>
-<li><strong>Missing values and noise:</strong> must be imputed, removed, or cleaned.</li>
-<li><strong>Insufficient or unrepresentative data:</strong> a model trained mostly on one population performs poorly on others (a source of bias).</li>
-<li><strong>Class imbalance:</strong> very few examples of the rare class (fraud), which makes naive models ignore it.</li>
-<li><strong>Incorrect or inconsistent labels:</strong> the model faithfully learns your mistakes.</li>
-<li><strong>Data leakage:</strong> information from the future or from the label slips into features, producing great test scores and failure in production.</li>
+<li><strong>Missing values and noise:</strong> fill them in (impute), remove them, or clean them.</li>
+<li><strong>Too little or unrepresentative data:</strong> a model trained mostly on one group of people does poorly on others (a source of bias).</li>
+<li><strong>Class imbalance:</strong> very few examples of the rare class (fraud). Simple models then tend to ignore it.</li>
+<li><strong>Wrong or inconsistent labels:</strong> the model learns your mistakes exactly.</li>
+<li><strong>Data leakage:</strong> information from the future or from the label slips into the features. Test scores look great, but the model fails in production.</li>
 </ul>
 
 <h3>Training, validation, and test sets</h3>
-<p>Splitting data guards against fooling yourself. Think of an exam: the <strong>training set</strong> is the textbook the model studies, the <strong>validation set</strong> is the practice exam used to adjust the study plan (tune hyperparameters, choose between models), and the <strong>test set</strong> is the final exam, touched once for an honest estimate of real-world performance. A typical split is roughly 70/15/15 or 80/10/10. If you tune against the test set it stops being an honest measure.</p>
+<p>Splitting data keeps you from fooling yourself. Think of an exam. The <strong>training set</strong> is the textbook the model studies. The <strong>validation set</strong> is the practice exam. You use it to adjust the study plan (tune hyperparameters, pick between models). The <strong>test set</strong> is the final exam. You use it once, to get an honest estimate of real-world performance. A typical split is about 70/15/15 or 80/10/10. If you tune against the test set, it no longer gives an honest score.</p>
 
 <h3>Fit: overfitting, underfitting, and the bias/variance tradeoff</h3>
-<p>Imagine fitting a curve to scattered points. A straight line through curved data misses the pattern (<strong>underfitting</strong>). A wiggly line through every point memorizes the noise (<strong>overfitting</strong>). The goal is a model that generalizes to unseen data.</p>
+<p>Imagine drawing a curve through scattered points. A straight line through curved data misses the pattern (<strong>underfitting</strong>). A wiggly line through every point memorizes the noise (<strong>overfitting</strong>). The goal is a model that works well on new data it has not seen.</p>
 <table>
 <thead>
 <tr><th></th><th>Underfitting</th><th>Good fit</th><th>Overfitting</th></tr>
@@ -88,7 +88,7 @@
 <tr><td>Statistical issue</td><td>High bias</td><td>Balanced</td><td>High variance</td></tr>
 <tr><td>Fixes</td><td>More complex model, better features, train longer</td><td></td><td>More data, simpler model, regularization, early stopping, drop irrelevant features</td></tr>
 </tbody></table>
-<p><strong>Bias</strong> here means error from overly simple assumptions; <strong>variance</strong> means sensitivity to the quirks of the particular training set. Lowering one tends to raise the other, which is the tradeoff. The diagnostic pattern to remember: a big gap between training and test performance signals overfitting; poor performance on both signals underfitting.</p>
+<p><strong>Bias</strong> here means error from assumptions that are too simple. <strong>Variance</strong> means the model is too sensitive to the quirks of its particular training set. Lowering one tends to raise the other. That is the tradeoff. Remember this check: a big gap between training and test performance means overfitting. Poor performance on both means underfitting.</p>
 
 <h3>Inference: batch vs real-time</h3>
 <table>
@@ -101,25 +101,25 @@
 <tr><td>Cost</td><td>Usually cheaper; compute only while the job runs</td><td>Endpoint stays up, so cost accrues continuously</td></tr>
 <tr><td>Example</td><td>Nightly churn scores for all customers</td><td>Fraud check while a payment is processed</td></tr>
 </tbody></table>
-<p>In SageMaker, real-time inference uses a persistent endpoint, while batch transform runs a job over a dataset in Amazon S3 and writes results back.</p>
+<p>In SageMaker, real-time inference uses an endpoint that stays running. Batch transform runs a job over a dataset in Amazon S3 and writes the results back.</p>
 <div class="callout"><p><strong>Exam tip:</strong> If the scenario says &quot;large volume, no immediate response needed, minimize cost,&quot; choose batch. If it says &quot;user is waiting&quot; or &quot;decision at transaction time,&quot; choose real-time.</p></div>
-<div class="callout warn"><p><strong>Common trap:</strong> Do not mix up the two meanings of &quot;bias&quot;: unfairness in data/outcomes (addressed with SageMaker Clarify and better data) versus underfitting error (addressed with a more expressive model). The context tells you which.</p></div>
+<div class="callout warn"><p><strong>Common trap:</strong> Do not mix up the two meanings of &quot;bias.&quot; One is unfairness in data or outcomes (fixed with SageMaker Clarify and better data). The other is underfitting error (fixed with a more flexible model). The context tells you which one is meant.</p></div>
 
 <h3>Key takeaways</h3>
 <ul>
 <li>AI &gt; ML &gt; deep learning &gt; generative AI, each a subset of the previous.</li>
-<li>Algorithm is the method; model is the trained result; inference is using it.</li>
-<li>Match learning type to data: labeled, unlabeled, few labels, self-generated labels, or rewards.</li>
-<li>Train tunes, validation selects, test judges. Never tune on test.</li>
-<li>Overfit means low training error and high test error; underfit means high error on both.</li>
+<li>The algorithm is the method. The model is the trained result. Inference is using it.</li>
+<li>Match the learning type to the data: labeled, unlabeled, few labels, self-made labels, or rewards.</li>
+<li>Training teaches, validation picks, and test judges. Never tune on the test set.</li>
+<li>Overfit means low training error and high test error. Underfit means high error on both.</li>
 </ul>
 
 <h2><label class="task-check"><input type="checkbox" data-task="1.2"> Studied</label>1.2 Identify practical use cases for AI</h2>
 
 <h3>When AI/ML is the right tool</h3>
-<p>ML earns its cost when the rules are too numerous or fuzzy to write by hand, when patterns live in large volumes of data, or when decisions must scale beyond human capacity. Typical wins: automating repetitive judgments (routing support tickets), assisting human experts (flagging suspicious scans for a radiologist), finding patterns in huge datasets, and personalizing at scale.</p>
-<p>It is a poor fit when a <strong>specific, deterministic outcome</strong> is required. A tax calculation or an eligibility check defined by law must give the exact same correct answer every time, so write code or rules. ML outputs are probabilistic and can be wrong. It is also a poor fit when the cost outweighs the benefit, when there is too little (or no) quality data, or when you cannot tolerate or explain errors in a high-stakes setting without human review.</p>
-<p>Worked example: a retailer wants to apply a fixed 8% sales tax. That is arithmetic: no ML. The same retailer wants to forecast next month&#39;s demand per product from three years of sales: that is a pattern-in-data problem, so ML fits.</p>
+<p>ML is worth its cost in three cases. The rules are too many or too fuzzy to write by hand. The patterns hide in large amounts of data. Or decisions must happen at a scale people cannot match. Typical wins: automating repeated judgments (routing support tickets), helping human experts (flagging suspicious scans for a radiologist), finding patterns in huge datasets, and personalizing at scale.</p>
+<p>It is a poor fit when you need a <strong>specific, deterministic outcome</strong> (the same exact answer every time). A tax calculation or an eligibility check set by law must be correct every time, so write code or rules. ML outputs are probabilistic (based on likelihood) and can be wrong. It is also a poor fit when the cost is bigger than the benefit, when you have too little quality data (or none), or when errors are costly or hard to explain and no human reviews them.</p>
+<p>Worked example: a retailer wants to apply a fixed 8% sales tax. That is simple arithmetic, so no ML. The same retailer wants to forecast next month&#39;s demand for each product from three years of sales. That is a pattern-in-data problem, so ML fits.</p>
 
 <h3>Choosing a technique by problem type</h3>
 <table>
@@ -133,10 +133,10 @@
 <tr><td>Is this unusual?</td><td>Anomaly detection</td><td>Equipment faults</td></tr>
 <tr><td>What action maximizes reward?</td><td>Reinforcement learning</td><td>Robot control</td></tr>
 </tbody></table>
-<p>Real-world application areas: computer vision (inspection, moderation), NLP (sentiment, summarization), speech recognition, recommendation systems, fraud detection, forecasting, and conversational interfaces.</p>
+<p>Real-world uses include: computer vision (inspection, moderation), NLP (sentiment, summarization), speech recognition, recommendation systems, fraud detection, forecasting, and conversational interfaces.</p>
 
 <h3>Mapping AWS managed AI services to use cases</h3>
-<p>The AWS AI services are pre-trained, API-based services: you send data and get predictions without building a model. That is the fastest route when your need matches what the service does. Use SageMaker when you need a custom model.</p>
+<p>The AWS AI services are pre-trained and work through an API. You send data and get predictions back, with no need to build a model. This is the fastest route when your need matches what the service does. Use SageMaker when you need a custom model.</p>
 <table>
 <thead>
 <tr><th>Service</th><th>What it does</th><th>Typical use</th></tr>
@@ -154,15 +154,15 @@
 <tr><td>Amazon Q</td><td>Generative AI assistant (for example Amazon Q Business for company data, Amazon Q Developer for coding)</td><td>Answer employee questions; help write code</td></tr>
 <tr><td>Amazon SageMaker</td><td>Platform to build, train, and deploy custom ML models</td><td>Custom model on proprietary data</td></tr>
 </tbody></table>
-<p>Other purpose-built services exist for forecasting and fraud detection (Amazon Forecast and Amazon Fraud Detector), which the exam guide uses as examples of ML use cases; both are closed to new customers (Forecast since July 29, 2024, Fraud Detector since November 7, 2025), so for new projects AWS points to SageMaker, AutoGluon, or AWS WAF Fraud Control instead. See the <a href="../cheatsheets/services.html">services cheat-sheet</a> for a full list.</p>
-<div class="callout"><p><strong>Exam tip:</strong> The exam usually describes an input type and an output. Map it: image in, labels out is Rekognition; scanned form in, key-value pairs out is Textract; audio in, text out is Transcribe; text in, sentiment out is Comprehend; text in, audio out is Polly; recommendations is Personalize; search is Kendra.</p></div>
-<div class="callout warn"><p><strong>Common trap:</strong> Rekognition can read text in photos, but for structured documents (forms, tables, invoices) the answer is Textract. Transcribe and Polly are inverses. Comprehend analyzes text; Translate changes its language; Lex converses. And if the scenario needs a custom model on proprietary labeled data with no suitable pre-built service, the answer is SageMaker, not a managed AI API.</p></div>
+<p>Other purpose-built services exist for forecasting and fraud detection (Amazon Forecast and Amazon Fraud Detector). The exam guide uses them as examples of ML use cases. Both are closed to new customers (Forecast since July 29, 2024, Fraud Detector since November 7, 2025). For new projects, AWS points to SageMaker, AutoGluon, or AWS WAF Fraud Control instead. See the <a href="../cheatsheets/services.html">services cheat-sheet</a> for a full list.</p>
+<div class="callout"><p><strong>Exam tip:</strong> The exam usually describes an input type and an output. Match them up. Image in, labels out is Rekognition. Scanned form in, key-value pairs out is Textract. Audio in, text out is Transcribe. Text in, sentiment out is Comprehend. Text in, audio out is Polly. Recommendations is Personalize. Search is Kendra.</p></div>
+<div class="callout warn"><p><strong>Common trap:</strong> Rekognition can read text in photos, but for structured documents (forms, tables, invoices) the answer is Textract. Transcribe and Polly do opposite jobs. Comprehend analyzes text, Translate changes its language, and Lex holds a conversation. And if the scenario needs a custom model on your own labeled data and no pre-built service fits, the answer is SageMaker, not a managed AI API.</p></div>
 
 <h3>Key takeaways</h3>
 <ul>
-<li>Use ML for fuzzy, data-rich, scalable problems; use code for deterministic ones.</li>
-<li>Number means regression, category means classification, unlabeled groups means clustering.</li>
-<li>Prefer a managed AI service when it matches the task; use SageMaker for custom needs.</li>
+<li>Use ML for fuzzy, data-rich problems that need to scale. Use plain code for exact, fixed-answer problems.</li>
+<li>A number means regression, a category means classification, and unlabeled groups mean clustering.</li>
+<li>Pick a managed AI service when it fits the task. Use SageMaker for custom needs.</li>
 </ul>
 
 <h2><label class="task-check"><input type="checkbox" data-task="1.3"> Studied</label>1.3 Describe the ML development lifecycle</h2>
@@ -171,22 +171,22 @@
 <pre><code>Define problem -&gt; Collect data -&gt; EDA -&gt; Pre-process -&gt; Feature engineering -&gt; Train
    -&gt; Tune hyperparameters -&gt; Evaluate -&gt; Deploy -&gt; Monitor -&gt; (retrain)
 </code></pre>
-<p>This is a loop, not a line. Monitoring in production often sends you back to data collection and retraining.</p>
+<p>This is a loop, not a straight line. Monitoring in production often sends you back to collect more data and retrain.</p>
 <ul>
-<li><strong>Define the problem and success metric:</strong> is it classification or regression, and what business outcome matters?</li>
-<li><strong>Collect data:</strong> from databases, logs, S3, streams. Labels may need human annotation.</li>
-<li><strong>Exploratory data analysis (EDA):</strong> look at distributions, missing values, outliers, correlations, and class balance before modeling.</li>
-<li><strong>Pre-process:</strong> clean, impute, deduplicate, normalize or scale, encode categories, split into train/validation/test.</li>
-<li><strong>Feature engineering:</strong> create or select inputs that make the pattern easier to learn (for example derive &quot;day of week&quot; from a timestamp).</li>
+<li><strong>Define the problem and success metric:</strong> is it classification or regression, and what business result matters?</li>
+<li><strong>Collect data:</strong> from databases, logs, S3, or streams. People may need to add labels.</li>
+<li><strong>Exploratory data analysis (EDA):</strong> before modeling, look at how values are spread, missing values, outliers, correlations, and class balance.</li>
+<li><strong>Pre-process:</strong> clean, fill gaps (impute), remove duplicates, normalize or scale values, encode categories, and split into train/validation/test.</li>
+<li><strong>Feature engineering:</strong> create or pick inputs that make the pattern easier to learn (for example, get &quot;day of week&quot; from a timestamp).</li>
 <li><strong>Train:</strong> run the algorithm to fit the parameters.</li>
-<li><strong>Tune hyperparameters:</strong> adjust settings you choose before training.</li>
+<li><strong>Tune hyperparameters:</strong> adjust the settings you choose before training.</li>
 <li><strong>Evaluate:</strong> measure on held-out data against the chosen metrics, including business metrics.</li>
-<li><strong>Deploy:</strong> expose the model for real-time or batch inference.</li>
-<li><strong>Monitor:</strong> watch for drift and quality decay, then retrain.</li>
+<li><strong>Deploy:</strong> make the model available for real-time or batch inference.</li>
+<li><strong>Monitor:</strong> watch for drift (the data changing over time) and falling quality, then retrain.</li>
 </ul>
 
 <h3>Hyperparameters vs parameters</h3>
-<p><strong>Parameters</strong> (weights) are learned from data during training. <strong>Hyperparameters</strong> (learning rate, number of trees, number of layers, batch size, epochs) are set by you before training and control how learning proceeds. Tuning is a search: try combinations, compare validation scores, keep the best. Like adjusting oven temperature and baking time across several test batches. SageMaker automatic model tuning automates this search.</p>
+<p><strong>Parameters</strong> (weights) are learned from data during training. <strong>Hyperparameters</strong> (learning rate, number of trees, number of layers, batch size, epochs) are settings you pick before training. They control how learning goes. Tuning is a search: try combinations, compare validation scores, and keep the best. It is like changing the oven temperature and baking time across several test batches. SageMaker automatic model tuning does this search for you.</p>
 
 <h3>AWS services across the pipeline</h3>
 <table>
@@ -207,17 +207,17 @@
 </tbody></table>
 
 <h3>Model sources and production hosting</h3>
-<p><strong>Open-source pre-trained models</strong> (for example from JumpStart or public hubs) are fast and cheap to start with and can be fine-tuned. <strong>Custom-trained models</strong> give maximum control and fit your data but cost more time, data, and expertise. Managed-service models (such as those in Bedrock) require no training at all.</p>
-<p>For production, a <strong>managed API service</strong> (a SageMaker endpoint or Bedrock) reduces operational burden: AWS handles scaling and infrastructure. A <strong>self-hosted API</strong> on your own compute gives more control over environment and cost tuning but you own patching, scaling, and availability.</p>
+<p><strong>Open-source pre-trained models</strong> (for example from JumpStart or public hubs) are quick and cheap to start with, and you can fine-tune them. <strong>Custom-trained models</strong> give you the most control and fit your data best, but they cost more time, data, and skill. Models from managed services (such as those in Bedrock) need no training at all.</p>
+<p>For production, a <strong>managed API service</strong> (a SageMaker endpoint or Bedrock) means less work to run. AWS handles scaling and infrastructure. A <strong>self-hosted API</strong> on your own compute gives you more control over the setup and cost. But you own patching, scaling, and uptime.</p>
 
 <h3>MLOps</h3>
-<p>MLOps applies DevOps discipline to ML: experimentation tracking, repeatable and automated pipelines, scalable infrastructure, managing technical debt (undocumented data dependencies, ad-hoc notebooks), production-readiness checks, continuous monitoring, and retraining. Why it matters: a model is not finished at deployment. Real-world data shifts (<strong>drift</strong>), so performance decays, and a one-off notebook cannot be reliably reproduced or audited. Pipelines plus Model Registry plus Model Monitor form the typical AWS answer.</p>
-<div class="callout"><p><strong>Exam tip:</strong> Match the tool to the verb: label means Ground Truth; prepare/transform means Data Wrangler; share features means Feature Store; detect bias or explain means Clarify; no-code means Canvas; AutoML means Autopilot; pre-trained starting point means JumpStart; version/approve means Model Registry; orchestrate means Pipelines; detect drift means Model Monitor.</p></div>
-<div class="callout warn"><p><strong>Common trap:</strong> Clarify (bias and explainability) is not Model Monitor (drift), though Clarify can also feed bias monitoring. Data Wrangler prepares data; Feature Store stores finished features. Ground Truth labels data; it does not train models. Hyperparameters are not learned parameters.</p></div>
+<p>MLOps brings DevOps habits to ML. That means tracking experiments, repeatable and automated pipelines, scalable infrastructure, managing technical debt (hidden data dependencies, ad-hoc notebooks), production-readiness checks, constant monitoring, and retraining. It matters because a model is not done once it is deployed. Real-world data changes over time (<strong>drift</strong>), so performance drops. And a one-off notebook cannot be reliably re-run or audited. On AWS, the usual answer is Pipelines plus Model Registry plus Model Monitor.</p>
+<div class="callout"><p><strong>Exam tip:</strong> Match the tool to the verb. Label means Ground Truth. Prepare or transform means Data Wrangler. Share features means Feature Store. Detect bias or explain means Clarify. No-code means Canvas. AutoML means Autopilot. Pre-trained starting point means JumpStart. Version or approve means Model Registry. Orchestrate means Pipelines. Detect drift means Model Monitor.</p></div>
+<div class="callout warn"><p><strong>Common trap:</strong> Clarify (bias and explainability) is not Model Monitor (drift), though Clarify can also feed bias monitoring. Data Wrangler prepares data, while Feature Store keeps finished features. Ground Truth labels data and does not train models. Hyperparameters are not learned parameters.</p></div>
 
 <h3>Evaluating models: the confusion matrix and metrics</h3>
-<p>For classification, count outcomes in a <strong>confusion matrix</strong>: true positives (TP), false positives (FP), false negatives (FN), true negatives (TN).</p>
-<p>Worked example: a fraud model scores 1,000 transactions, of which 50 are actually fraud. It catches 40 (TP = 40), misses 10 (FN = 10), wrongly flags 20 legitimate ones (FP = 20), and correctly clears 930 (TN = 930).</p>
+<p>For classification, count the outcomes in a <strong>confusion matrix</strong>: true positives (TP), false positives (FP), false negatives (FN), and true negatives (TN).</p>
+<p>Worked example: a fraud model scores 1,000 transactions, and 50 of them are really fraud. It catches 40 (TP = 40), misses 10 (FN = 10), wrongly flags 20 legitimate ones (FP = 20), and correctly clears 930 (TN = 930).</p>
 <table>
 <thead>
 <tr><th></th><th>Predicted fraud</th><th>Predicted legit</th></tr>
@@ -236,20 +236,20 @@
 <tr><td>Recall (sensitivity)</td><td>TP / (TP+FN)</td><td>40/50 = 80%</td><td>Of real fraud, how much did we catch?</td></tr>
 <tr><td>F1</td><td>2 x P x R / (P+R)</td><td>about 0.73</td><td>Single balance of precision and recall</td></tr>
 </tbody></table>
-<p>Notice accuracy looks excellent at 97%, yet a model that always said &quot;legit&quot; would score 95% while catching zero fraud. That is why accuracy misleads on imbalanced data. Choose by the cost of errors: when missing a positive is costly (cancer screening, fraud), favor <strong>recall</strong>; when false alarms are costly (blocking good customers, spam filtering that hides real mail), favor <strong>precision</strong>.</p>
-<p><strong>AUC-ROC</strong> plots the true-positive rate against the false-positive rate across all decision thresholds. The area under the curve summarizes how well the model separates the classes regardless of threshold: 1.0 is perfect, 0.5 is no better than random guessing.</p>
-<p><strong>Regression metrics</strong> measure numeric error. <strong>MAE</strong> (mean absolute error) is the average size of errors in the target&#39;s own units. <strong>RMSE</strong> (root mean squared error) squares errors before averaging, so it penalizes large misses more heavily. Lower is better for both.</p>
-<p><strong>Business metrics</strong> tie the model to value: ROI, cost per user, development and operating cost, customer feedback or satisfaction, and revenue or conversion impact. A model with a great F1 that costs more than it saves is still a failure.</p>
+<p>Notice that accuracy looks great at 97%. Yet a model that always said &quot;legit&quot; would score 95% and catch zero fraud. That is why accuracy can mislead when classes are imbalanced. Choose by the cost of each kind of error. When missing a positive is costly (cancer screening, fraud), favor <strong>recall</strong>. When false alarms are costly (blocking good customers, or a spam filter that hides real mail), favor <strong>precision</strong>.</p>
+<p><strong>AUC-ROC</strong> plots the true-positive rate against the false-positive rate at every decision threshold (the cutoff score for calling something positive). The area under the curve shows how well the model separates the classes, whatever the threshold. 1.0 is perfect, and 0.5 is no better than random guessing.</p>
+<p><strong>Regression metrics</strong> measure the size of numeric errors. <strong>MAE</strong> (mean absolute error) is the average size of the errors, in the same units as the target. <strong>RMSE</strong> (root mean squared error) squares the errors before averaging, so big misses count for more. Lower is better for both.</p>
+<p><strong>Business metrics</strong> link the model to value: ROI, cost per user, build and running cost, customer feedback or satisfaction, and revenue or conversion impact. A model with a great F1 that costs more than it saves is still a failure.</p>
 <div class="callout"><p><strong>Exam tip:</strong> Questions on rare events (fraud, defects, disease) are really asking &quot;do you know accuracy is misleading?&quot; Pick precision, recall, F1, or AUC. If a question names MAE or RMSE, the problem is regression.</p></div>
-<div class="callout warn"><p><strong>Common trap:</strong> Precision and recall are easy to swap. Precision looks at what the model flagged (FP in the denominator); recall looks at what truly exists (FN in the denominator). Also, AUC-ROC and F1 are for classification, never for predicting a number.</p></div>
+<div class="callout warn"><p><strong>Common trap:</strong> Precision and recall are easy to swap. Precision looks at what the model flagged (FP is in the denominator). Recall looks at what is truly there (FN is in the denominator). Also, AUC-ROC and F1 are for classification, never for predicting a number.</p></div>
 
 <h3>Key takeaways</h3>
 <ul>
 <li>The lifecycle is a loop: data, EDA, pre-process, features, train, tune, evaluate, deploy, monitor, retrain.</li>
-<li>Hyperparameters are set by you; parameters are learned.</li>
-<li>Know each SageMaker tool&#39;s single job.</li>
-<li>Pre-trained and managed options save effort; custom models give control.</li>
-<li>With imbalanced classes use precision, recall, F1, AUC; for regression use MAE or RMSE; always add business metrics.</li>
+<li>You set hyperparameters. The model learns parameters.</li>
+<li>Know the one job of each SageMaker tool.</li>
+<li>Pre-trained and managed options save effort. Custom models give you control.</li>
+<li>With imbalanced classes, use precision, recall, F1, or AUC. For regression, use MAE or RMSE. Always add business metrics.</li>
 </ul>
 
 <div class="quiz-head"><h2 id="quiz" style="flex:1">Self-check questions</h2><span class="score"></span> <button class="quiz-reset">Reset</button></div>
@@ -257,31 +257,31 @@
 <ol class="quiz">
 <li>
 <p class="q">What is the relationship between AI, ML, and deep learning?</p>
-<div class="a">AI is the broadest; ML is a subset of AI; deep learning is a subset of ML. Each narrows the method used to achieve intelligent behavior.</div>
+<div class="a">AI is the widest. ML is a part of AI, and deep learning is a part of ML. Each one is a narrower way to get smart behavior.</div>
 </li>
 <li>
 <p class="q">Which learning type uses labeled data? Which finds clusters?</p>
-<div class="a">Supervised uses labeled data; unsupervised (clustering) finds groups. Clustering needs no labels because it discovers structure itself.</div>
+<div class="a">Supervised learning uses labeled data. Unsupervised learning (clustering) finds groups. Clustering needs no labels because it finds the structure itself.</div>
 </li>
 <li>
 <p class="q">An LLM is pre-trained by predicting the next word in huge amounts of unlabeled text. Which learning type is this?</p>
-<div class="a">Self-supervised learning. The labels (the next words) are generated from the data itself.</div>
+<div class="a">Self-supervised learning. The labels (the next words) come from the data itself.</div>
 </li>
 <li>
 <p class="q">When is batch inference better than real-time?</p>
-<div class="a">When results are not needed instantly and large volumes can be processed offline, which is cheaper than keeping an endpoint running.</div>
+<div class="a">When you do not need results right away and can process large amounts offline. This costs less than keeping an endpoint running.</div>
 </li>
 <li>
 <p class="q">A company needs to compute exact sales tax from a fixed legal rate. Should it use ML?</p>
-<div class="a">No. A deterministic outcome should be implemented with rules or code, because ML predictions are probabilistic.</div>
+<div class="a">No. Use rules or code for an exact, fixed outcome, because ML predictions are based on likelihood.</div>
 </li>
 <li>
 <p class="q">Which technique predicts a continuous number? Which predicts a category?</p>
-<div class="a">Regression predicts a number; classification predicts a category. The difference is the type of the label.</div>
+<div class="a">Regression predicts a number. Classification predicts a category. The difference is the type of label.</div>
 </li>
 <li>
 <p class="q">A model scores 99% on training data but 70% on test data. What is the problem and one fix?</p>
-<div class="a">Overfitting (high variance); fixes include more data, a simpler model, or regularization.</div>
+<div class="a">Overfitting (high variance). Fixes include more data, a simpler model, or regularization.</div>
 </li>
 <li>
 <p class="q">A company wants to extract fields and tables from thousands of scanned invoices. Which service?</p>
@@ -305,15 +305,15 @@
 </li>
 <li>
 <p class="q">A fraud model reports 98% accuracy, but only 1% of transactions are fraud. Why might it still be poor, and what should you check?</p>
-<div class="a">It may simply predict &quot;not fraud&quot; every time; check precision, recall, F1, or AUC-ROC instead.</div>
+<div class="a">It may just say &quot;not fraud&quot; every time. Check precision, recall, F1, or AUC-ROC instead.</div>
 </li>
 <li>
 <p class="q">Missing a disease case is far worse than a false alarm. Which metric should you prioritize?</p>
-<div class="a">Recall, because it measures the share of true positives caught (it penalizes false negatives).</div>
+<div class="a">Recall, because it measures the share of true positives caught (it counts false negatives against the model).</div>
 </li>
 <li>
 <p class="q">Name one technical metric for regression and one business metric for any ML model.</p>
-<div class="a">Technical: MAE or RMSE. Business: ROI or cost per user; these show whether the model delivers value.</div>
+<div class="a">Technical: MAE or RMSE. Business: ROI or cost per user. These show whether the model is worth it.</div>
 </li>
 </ol>
 <h2 id="mcq-practice">Multiple-choice practice</h2>
