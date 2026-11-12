@@ -125,10 +125,10 @@
       [1, 2, 3, 4, 5].forEach(function (d) { picked = picked.concat(shuffle(byDomain(d)).slice(0, alloc[d])); });
       picked = shuffle(picked).map(function (q) {
         var order = shuffle([0, 1, 2, 3]);
-        return { d: q.d, t: q.t, q: q.q, e: q.e, o: order.map(function (k) { return q.o[k]; }), a: order.indexOf(q.a) };
+        return { d: q.d, t: q.t, q: q.q, e: q.e, w: q.w && order.map(function (k) { return q.w[k]; }), o: order.map(function (k) { return q.o[k]; }), a: order.indexOf(q.a) };
       });
       state = {
-        qs: picked, ans: {}, flag: {}, cur: 0, done: false,
+        qs: picked, ans: {}, flag: {}, checked: {}, cur: 0, done: false,
         limit: minutes ? minutes * 60 : 0, left: minutes ? minutes * 60 : 0,
         began: Date.now(), review: "all"
       };
@@ -172,7 +172,7 @@
     function renderQuestion() {
       var q = state.qs[state.cur];
       var answeredN = Object.keys(state.ans).length;
-      var html = '<div class="exam-bar"><span>Question <b>' + (state.cur + 1) + "</b> of " + state.qs.length +
+      var html = '<div class="exam-bar"><span>' + (state.retry ? "Retry round: " : "") + 'Question <b>' + (state.cur + 1) + "</b> of " + state.qs.length +
         " · answered " + answeredN + "</span>" +
         (state.limit ? '<span class="timer-wrap">Time left <b class="timer">' + fmt(Math.max(state.left, 0)) + "</b></span>" : "") + "</div>";
       html += '<div class="palette">';
@@ -186,21 +186,51 @@
       html += "</div>";
       html += '<div class="exam-q"><p class="mq">' + esc(q.q) + '</p><div class="opts">';
       q.o.forEach(function (o, k) {
-        html += '<button class="opt' + (state.ans[state.cur] === k ? " picked" : "") + '" data-pick="' + k + '"><b>' + LETTERS[k] + "</b><span>" + esc(o) + "</span></button>";
+        var cls = "opt" + (state.ans[state.cur] === k ? " picked" : "");
+        if (state.checked[state.cur]) {
+          if (k === q.a) cls += " correct"; else if (state.ans[state.cur] === k) cls += " incorrect";
+        }
+        html += '<button class="' + cls + '"' + (state.checked[state.cur] ? " disabled" : "") + ' data-pick="' + k + '"><b>' + LETTERS[k] + "</b><span>" + esc(o) + "</span></button>";
       });
-      html += "</div></div>";
+      html += "</div>";
+      if (state.checked[state.cur]) {
+        var got = state.ans[state.cur];
+        html += '<div class="explain"><b>' + (got === q.a ? "Correct. " : "Right answer: " + LETTERS[q.a] + ". ") + "</b>" + esc(q.e) + "</div>";
+        if (got !== q.a && q.w && q.w[got]) {
+          html += '<div class="explain"><b>Why ' + LETTERS[got] + " is wrong: </b>" + esc(q.w[got]) + "</div>";
+        }
+      }
+      html += "</div>";
       html += '<div class="exam-nav"><button data-nav="-1"' + (state.cur === 0 ? " disabled" : "") + ">Previous</button>" +
+        '<button data-check="1"' + (state.ans[state.cur] === undefined || state.checked[state.cur] ? " disabled" : "") + ">" + (state.checked[state.cur] ? "Answer checked" : "Check answer") + "</button>" +
         '<button data-flag="1" class="' + (state.flag[state.cur] ? "on bad" : "") + '">' + (state.flag[state.cur] ? "Flagged" : "Flag for review") + "</button>" +
         (state.cur < state.qs.length - 1
           ? '<button class="primary" data-nav="1">Next</button>'
-          : '<button class="primary" data-finish="1">Finish exam</button>') +
+          : state.retry ? '<button class="primary" data-finish="1">Finish exam</button>'
+          : '<button class="primary" data-finish="1" data-retry="1">Finish exam</button>') +
         '<button data-finish="1" class="ghost">Submit now</button></div>';
       root.innerHTML = html;
+    }
+
+    // After the first pass, replays the missed or skipped questions (reshuffled) as an ungraded retry round.
+    function startRetry() {
+      var wrong = [];
+      state.qs.forEach(function (q, i) { if (state.ans[i] !== q.a) wrong.push(q); });
+      state.first = { qs: state.qs, ans: state.ans, flag: state.flag, checked: state.checked };
+      state.qs = shuffle(wrong).map(function (q) {
+        var order = shuffle([0, 1, 2, 3]);
+        return { d: q.d, t: q.t, q: q.q, e: q.e, w: q.w && order.map(function (k) { return q.w[k]; }), o: order.map(function (k) { return q.o[k]; }), a: order.indexOf(q.a) };
+      });
+      state.ans = {}; state.flag = {}; state.checked = {}; state.cur = 0; state.retry = true;
+      renderQuestion();
     }
 
     function finish() {
       if (state.done) return;
       state.done = true;
+      if (state.first) {
+        state.qs = state.first.qs; state.ans = state.first.ans; state.flag = state.first.flag; state.checked = state.first.checked;
+      }
       clearInterval(timerId);
       window.onbeforeunload = null;
       var per = {}, correct = 0;
@@ -284,6 +314,8 @@
         return;
       } else if (t.hasAttribute("data-pick") && !state.done) {
         state.ans[state.cur] = parseInt(t.getAttribute("data-pick"), 10); renderQuestion();
+      } else if (t.hasAttribute("data-check") && !state.done) {
+        if (state.ans[state.cur] !== undefined) { state.checked[state.cur] = true; renderQuestion(); }
       } else if (t.hasAttribute("data-go")) {
         state.cur = parseInt(t.getAttribute("data-go"), 10); renderQuestion();
       } else if (t.hasAttribute("data-nav")) {
@@ -292,7 +324,9 @@
         state.flag[state.cur] = !state.flag[state.cur]; renderQuestion();
       } else if (t.hasAttribute("data-finish")) {
         var open = state.qs.length - Object.keys(state.ans).length;
-        if (!open || confirm(open + " question(s) unanswered. Submit anyway?")) finish();
+        var goRetry = t.hasAttribute("data-retry") && !state.retry;
+        if (open && !confirm(open + " question(s) unanswered. " + (goRetry ? "Continue anyway?" : "Submit anyway?"))) return;
+        if (goRetry && state.qs.some(function (q, i) { return state.ans[i] !== q.a; })) startRetry(); else finish();
       } else if (t.hasAttribute("data-rev")) {
         state.review = t.getAttribute("data-rev"); renderResults();
       } else if (t.hasAttribute("data-savegap")) {
