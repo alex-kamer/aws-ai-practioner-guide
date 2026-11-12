@@ -127,6 +127,7 @@ Online:   question -&gt; embed -&gt; similarity search -&gt; top chunks
 <li>Cost ladder: in-context learning, RAG, fine-tuning, pre-training. Agents add multi-step actions.</li>
 </ul>
 
+<div class="mcq-section" data-domain="3" data-task="3.1"></div>
 <h2><label class="task-check"><input type="checkbox" data-task="3.2"> Studied</label>3.2 Effective prompt engineering</h2>
 <p>Prompt engineering means writing your input so the model gives the output you want. It is the cheapest tool you have, and it needs no training. An FM works by predicting the next token, so the prompt is the whole description of your task.</p>
 
@@ -201,6 +202,7 @@ Review: "It is okay, nothing special." -&gt;
 <li>Know the four risks (exposure, poisoning, hijacking/injection, jailbreaking) and a defense for each.</li>
 </ul>
 
+<div class="mcq-section" data-domain="3" data-task="3.2"></div>
 <h2><label class="task-check"><input type="checkbox" data-task="3.3"> Studied</label>3.3 Training and fine-tuning FMs</h2>
 <p>If prompting and RAG are not enough, you change the model's weights. That means training. Training has real costs, needs data, and brings governance duties.</p>
 
@@ -258,6 +260,7 @@ Review: "It is okay, nothing special." -&gt;
 <li>Bedrock customization reads from S3, and custom models are served through Provisioned Throughput.</li>
 </ul>
 
+<div class="mcq-section" data-domain="3" data-task="3.3"></div>
 <h2><label class="task-check"><input type="checkbox" data-task="3.4"> Studied</label>3.4 Evaluating FM performance</h2>
 <p>Judging a generative model is harder than judging a classifier, because many different answers can be correct. So you combine automatic metrics, benchmarks, and human judgment. Finally, you check whether the app meets its business goal.</p>
 
@@ -305,6 +308,7 @@ Review: "It is okay, nothing special." -&gt;
 <li>Measure success against business results: productivity, engagement, and task completion.</li>
 </ul>
 
+<div class="mcq-section" data-domain="3" data-task="3.4"></div>
 <div class="quiz-head"><h2 id="quiz" style="flex:1">Self-check questions</h2><span class="score"></span> <button class="quiz-reset">Reset</button></div>
 <p class="small">Try to answer first, then reveal and mark yourself. Your score is saved in this browser.</p>
 <ol class="quiz">
@@ -369,9 +373,7 @@ Review: "It is okay, nothing special." -&gt;
 <div class="a">Prompt injection (hijacking, with exposure as the goal); mitigate with delimiters, Guardrails for Amazon Bedrock, and limited tool permissions.</div>
 </li>
 </ol>
-<h2 id="mcq-practice">Multiple-choice practice</h2>
-<p class="small">Exam-style questions for this domain. Pick an answer to see the explanation. For a mixed, timed run, use the <a href="../practice/exam.html">practice exam</a>.</p>
-<div id="mcq" data-domain="3"></div>
+<p class="small">For a mixed, timed run, use the <a href="../practice/exam.html">practice exam</a>.</p>
 </main>
 <footer>Study aid based on the AWS AIF-C01 exam guide v1.4. Verify against AWS docs.</footer>
 </body>

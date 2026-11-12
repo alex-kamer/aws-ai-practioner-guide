@@ -14,7 +14,7 @@ Your progress (quiz scores, checklists, practice-exam history, gap map) is saved
 | --- | --- | --- |
 | Domain notes | `domains/01..05-*.html` | In-depth notes, one section per official task statement, with exam tips, common traps, and key takeaways |
 | Self-check questions | End of each domain page | Short-answer cards: reveal the answer, then mark "I got it" or "I missed it" |
-| Multiple-choice practice | End of each domain page | Exam-style questions with instant feedback and explanations |
+| Multiple-choice practice | Under each task section of a domain page | Exam-style questions with instant feedback and explanations |
 | Practice exam | `practice/exam.html` | Timed, domain-weighted mock exam with a per-domain score breakdown and review |
 | Gap map | `tracker/gap-map.html` | Enter scores per domain and get a ranked study order |
 | Cheat-sheets | `cheatsheets/` | AWS services mapped to use cases, and a glossary |

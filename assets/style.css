@@ -394,6 +394,7 @@ button:disabled { opacity: 0.5; cursor: default; }
 
 /* Multiple choice and practice exam */
 .mcq-head { display: flex; align-items: center; gap: 0.8rem; margin: 0.5rem 0; }
+.mcq-section { margin: 1.5rem 0 2rem; padding-top: 0.5rem; border-top: 2px solid var(--border); }
 ol.mcq { list-style: none; padding: 0; }
 ol.mcq > li {
   background: var(--surface);

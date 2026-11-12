@@ -28,23 +28,36 @@
   function byDomain(d) { return bank().filter(function (q) { return q.d === d; }); }
 
   // ---------- Per-domain practice ----------
+  // Each .mcq-section sits under one task statement and shows only that task's questions.
+  // Answers are saved per domain, keyed by the question's position in the domain bank.
+  var domainState = {};
+  function stateFor(d) {
+    if (!domainState[d]) domainState[d] = window.AIF.store("mcq:d" + d) || {};
+    return domainState[d];
+  }
+
   function renderDomain(root) {
     var d = parseInt(root.getAttribute("data-domain"), 10);
-    var qs = byDomain(d);
+    var task = root.getAttribute("data-task");
+    var all = byDomain(d);
+    var qs = [];
+    all.forEach(function (q, i) { if (!task || q.t === task) qs.push({ q: q, i: i }); });
     var key = "mcq:d" + d;
-    var saved = window.AIF.store(key) || {};
+    var saved = stateFor(d);
 
     function save() { window.AIF.store(key, saved); }
 
     function build() {
       var right = 0, answered = 0;
-      qs.forEach(function (q, i) {
-        if (saved[i] !== undefined) { answered++; if (saved[i] === q.a) right++; }
+      qs.forEach(function (item) {
+        if (saved[item.i] !== undefined) { answered++; if (saved[item.i] === item.q.a) right++; }
       });
-      var html = '<div class="mcq-head"><span class="score">Score ' + right + " / " + qs.length +
+      var html = '<div class="mcq-head"><strong>Check your understanding</strong> ' +
+        '<span class="score">Score ' + right + " / " + qs.length +
         " · answered " + answered + '</span> <button class="mcq-reset">Reset</button></div>';
       html += '<ol class="mcq">';
-      qs.forEach(function (q, i) {
+      qs.forEach(function (item, n) {
+        var q = item.q, i = item.i;
         var done = saved[i] !== undefined;
         html += '<li data-i="' + i + '" class="' + (done ? (saved[i] === q.a ? "right" : "wrong") : "") + '">' +
           '<p class="mq"><span class="tag">' + esc(q.t) + "</span> " + esc(q.q) + "</p>" +
@@ -78,12 +91,13 @@
         window.scrollBy(0, again.getBoundingClientRect().top - y);
         return;
       }
-      if (e.target.closest(".mcq-reset") && confirm("Clear your answers for this domain?")) {
-        saved = {}; save(); build();
+      if (e.target.closest(".mcq-reset") && confirm("Clear your answers for these questions?")) {
+        qs.forEach(function (item) { delete saved[item.i]; });
+        save(); build();
       }
     });
 
-    if (!qs.length) { root.innerHTML = '<p class="small">No questions loaded.</p>'; return; }
+    if (!qs.length) { root.style.display = "none"; return; }
     build();
   }
 
@@ -343,8 +357,8 @@
 
   // Runs after app.js has built the layout (both defer; app.js waits for DOMContentLoaded).
   document.addEventListener("DOMContentLoaded", function () {
-    var dom = document.getElementById("mcq");
-    if (dom) renderDomain(dom);
+    var secs = document.querySelectorAll(".mcq-section");
+    for (var s = 0; s < secs.length; s++) renderDomain(secs[s]);
     var ex = document.getElementById("exam");
     if (ex) renderExam(ex);
   });
