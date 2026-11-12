@@ -182,7 +182,7 @@
 <tbody>
 <tr><td>On-demand</td><td>Per input and output token (images are priced per image); no commitment</td><td>Variable or unpredictable traffic, prototypes</td></tr>
 <tr><td>Batch</td><td>Submit many prompts as a job and get results later, typically at a lower price than on-demand</td><td>Large offline jobs that are not latency sensitive</td></tr>
-<tr><td>Provisioned throughput</td><td>Reserve model units for an hourly rate, with optional commitment terms</td><td>Steady high-volume workloads needing consistent performance; required to use custom models</td></tr>
+<tr><td>Provisioned throughput</td><td>Reserve model units for an hourly rate, with optional commitment terms</td><td>Steady high-volume workloads needing consistent performance; the standard way to serve custom models</td></tr>
 </tbody></table>
 <p>Worked example: a nightly job that classifies 500,000 support tickets can wait until morning, so batch inference is a good fit. A customer chatbot with a steady, heavy load and strict latency expectations may justify provisioned throughput. A prototype used by ten people should be on-demand.</p>
 <p>Other cost and design factors: <strong>Region</strong> (model availability and price vary, and data residency rules may limit where you can run), <strong>redundancy and availability</strong> (design across Availability Zones or Regions as needed), response time, and model size. Cost also scales with prompt length, so trimming prompts and retrieving only relevant chunks saves money.</p>

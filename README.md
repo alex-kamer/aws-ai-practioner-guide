@@ -78,6 +78,7 @@ Requirements and design decisions live in `openspec/`. `openspec/specs/` holds t
 ## Caveats
 
 - This is a study aid, not an official AWS resource. Content was written from the official exam guide, and the notes and questions have not been independently verified against current AWS documentation. Verify anything surprising.
+- AWS services change often. Accuracy was last reviewed on 2026-11-12. Amazon Forecast, Fraud Detector and Kendra are closed to new customers, but the exam guide may still reference them. Some service names are the older ones, for example "Agents for Amazon Bedrock" is now "Amazon Bedrock Agents". Check the current AWS docs before relying on availability details.
 - The questions are original practice items, not real exam questions.
 - The labs have not been tested against the live AWS console, so steps and screens may be out of date. Labs can incur AWS charges, so follow each lab's cleanup steps.
 - Browser local storage can be cleared by the browser, and some browsers treat `file://` pages differently. If you lose progress, restore the gap map from its JSON export.

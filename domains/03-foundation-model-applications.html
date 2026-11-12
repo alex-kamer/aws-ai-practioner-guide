@@ -92,11 +92,11 @@ Online:   question -&gt; embed -&gt; similarity search -&gt; top chunks
 <tr><td>Amazon OpenSearch Service / OpenSearch Serverless</td><td>Vector search engine (k-NN); Serverless has a vector search collection type and is a common Knowledge Bases choice</td><td>You want a purpose-built, scalable search engine, possibly with hybrid keyword plus semantic search</td></tr>
 <tr><td>Amazon Aurora PostgreSQL (pgvector extension)</td><td>Vectors stored in relational tables</td><td>You already use Aurora and want vectors next to relational data</td></tr>
 <tr><td>Amazon RDS for PostgreSQL (pgvector)</td><td>Same pgvector approach on RDS</td><td>Existing RDS PostgreSQL workloads</td></tr>
-<tr><td>Amazon Neptune</td><td>Graph database with vector support for graph-based retrieval</td><td>Relationships between entities matter (graph plus vectors)</td></tr>
+<tr><td>Amazon Neptune (Neptune Analytics for Knowledge Bases)</td><td>Graph database with vector support for graph-based retrieval</td><td>Relationships between entities matter (graph plus vectors)</td></tr>
 <tr><td>Amazon DocumentDB</td><td>Document database with vector search</td><td>Your data is already JSON documents in DocumentDB</td></tr>
 </tbody>
 </table>
-<p>The exam logic: if you already run a database, adding vector search there avoids a new system and keeps data in one place. Bedrock Knowledge Bases supports several stores, including OpenSearch Serverless and Aurora PostgreSQL.</p>
+<p>The exam logic: if you already run a database, adding vector search there avoids a new system and keeps data in one place. Bedrock Knowledge Bases supports only some stores (for example OpenSearch Serverless, Aurora PostgreSQL, Neptune Analytics, S3 Vectors, and third parties such as Pinecone and MongoDB Atlas). RDS PostgreSQL and DocumentDB can hold vectors, but you would build that retrieval pipeline yourself.</p>
 
 <h3>Cost tradeoffs of customization</h3>
 <p>The ladder below runs from cheapest to most expensive. Always start at the bottom and climb only if needed.</p>
@@ -246,7 +246,7 @@ Review: "It is okay, nothing special." -&gt;
 <tr><td>Continued pre-training</td><td>Unlabeled data (raw domain text) in S3</td><td>Adds domain knowledge; supported only for certain models</td></tr>
 </tbody>
 </table>
-<p>You start a customization job, point it at training data in S3 (optionally validation data), and the result is a private custom model copy; your data is not used to train the base model for others. To run inference on a custom model, you must purchase <strong>Provisioned Throughput</strong>, which is committed, billed capacity, unlike on-demand pay-per-token for base models. That is an ongoing cost to factor in.</p>
+<p>You start a customization job, point it at training data in S3 (optionally validation data), and the result is a private custom model copy; your data is not used to train the base model for others. To run inference on a custom model, the standard approach is to purchase <strong>Provisioned Throughput</strong>, which is committed, billed capacity, unlike on-demand pay-per-token for base models. That is an ongoing cost to factor in. AWS has since added an on-demand deployment option (token-priced, no commitment) for some customized models, such as Amazon Nova, so check current Bedrock documentation. For the exam, Provisioned Throughput remains the expected answer.</p>
 <div class="callout warn"><p><strong>Common trap:</strong> Fine-tuning needs labeled data; continued pre-training uses unlabeled data. And fine-tuning is not the way to add frequently changing facts; that is RAG's job.</p></div>
 <div class="callout"><p><strong>Exam tip:</strong> "Labeled prompt-response pairs" means instruction tuning/fine-tuning. "Large corpus of unlabeled domain text" means continued pre-training. "Human rankings of outputs" means RLHF.</p></div>
 
@@ -346,7 +346,7 @@ Review: "It is okay, nothing special." -&gt;
 </li>
 <li>
 <p class="q">What do fine-tuned Bedrock models require to be served?</p>
-<div class="a">Provisioned Throughput, because custom models cannot be invoked on demand.</div>
+<div class="a">Provisioned Throughput, because custom models are traditionally served through committed capacity rather than base-model on-demand pricing (newer on-demand deployment exists for some models).</div>
 </li>
 <li>
 <p class="q">A bank&#39;s assistant must answer from policy documents that are updated weekly. Which approach is best and why?</p>

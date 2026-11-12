@@ -149,12 +149,12 @@
 <tr><td>Amazon Translate</td><td>Neural machine translation</td><td>Localize content</td></tr>
 <tr><td>Amazon Polly</td><td>Text to speech</td><td>Voice for apps and audio versions of articles</td></tr>
 <tr><td>Amazon Lex</td><td>Build conversational chatbots with voice and text (intents and slots)</td><td>Order-status bot</td></tr>
-<tr><td>Amazon Kendra</td><td>Intelligent enterprise search over your documents using natural-language queries</td><td>Employees searching internal knowledge</td></tr>
+<tr><td>Amazon Kendra (maintenance mode; closed to new customers from July 30, 2026)</td><td>Intelligent enterprise search over your documents using natural-language queries</td><td>Employees searching internal knowledge</td></tr>
 <tr><td>Amazon Personalize</td><td>Personalized recommendations</td><td>&quot;Customers also bought&quot;</td></tr>
 <tr><td>Amazon Q</td><td>Generative AI assistant (for example Amazon Q Business for company data, Amazon Q Developer for coding)</td><td>Answer employee questions; help write code</td></tr>
 <tr><td>Amazon SageMaker</td><td>Platform to build, train, and deploy custom ML models</td><td>Custom model on proprietary data</td></tr>
 </tbody></table>
-<p>Other purpose-built services exist for forecasting and fraud detection (Amazon Forecast and Amazon Fraud Detector), which the exam guide uses as examples of ML use cases; check the current AWS documentation for their availability to new customers. See the <a href="../cheatsheets/services.html">services cheat-sheet</a> for a full list.</p>
+<p>Other purpose-built services exist for forecasting and fraud detection (Amazon Forecast and Amazon Fraud Detector), which the exam guide uses as examples of ML use cases; both are closed to new customers (Forecast since 2024, Fraud Detector since November 7, 2025), so for new projects AWS points to SageMaker, AutoGluon, or AWS WAF Fraud Control instead. See the <a href="../cheatsheets/services.html">services cheat-sheet</a> for a full list.</p>
 <div class="callout"><p><strong>Exam tip:</strong> The exam usually describes an input type and an output. Map it: image in, labels out is Rekognition; scanned form in, key-value pairs out is Textract; audio in, text out is Transcribe; text in, sentiment out is Comprehend; text in, audio out is Polly; recommendations is Personalize; search is Kendra.</p></div>
 <div class="callout warn"><p><strong>Common trap:</strong> Rekognition can read text in photos, but for structured documents (forms, tables, invoices) the answer is Textract. Transcribe and Polly are inverses. Comprehend analyzes text; Translate changes its language; Lex converses. And if the scenario needs a custom model on proprietary labeled data with no suitable pre-built service, the answer is SageMaker, not a managed AI API.</p></div>
 
