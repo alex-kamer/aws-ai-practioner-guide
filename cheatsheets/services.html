@@ -11,8 +11,8 @@
 <body data-root="../">
 <main class="wide">
 <h1>AWS Service Matching Cheat-Sheet</h1>
-<p>Based on the in-scope services list in the AIF-C01 exam guide v1.4. Study aid only: verify against AWS docs if something seems off.</p>
-<p>Exam tip: most service questions are &quot;which service does X?&quot;. Find the keyword in the <strong>Use case</strong> column.</p>
+<p>Based on the in-scope services list in the AIF-C01 exam guide v1.4. This is a study aid only. Check the AWS docs if something looks wrong.</p>
+<p>Exam tip: most service questions ask &quot;which service does X?&quot;. Look for the keyword in the <strong>Use case</strong> column.</p>
 <h2>AI/ML services</h2>
 <table>
 <thead>
@@ -25,111 +25,111 @@
 </thead>
 <tbody><tr>
 <td><strong>Amazon Bedrock</strong></td>
-<td>Managed API access to foundation models (Anthropic, Meta, Amazon Titan/Nova, etc.); includes Knowledge Bases, Agents, Guardrails, model evaluation</td>
-<td>Build GenAI apps without managing infrastructure</td>
-<td>SageMaker (you build/train/host your own models)</td>
+<td>Use foundation models (Anthropic, Meta, Amazon Titan/Nova, etc.) through a managed API. Also includes Knowledge Bases, Agents, Guardrails, model evaluation</td>
+<td>Build GenAI apps without running servers</td>
+<td>SageMaker (you build, train, and host your own models)</td>
 </tr>
 <tr>
 <td><strong>Bedrock Knowledge Bases</strong></td>
-<td>Managed RAG: ingest docs, create embeddings, store in a vector DB, retrieve</td>
-<td>Chatbot grounded in company docs</td>
+<td>Managed RAG: it loads your docs, makes embeddings, stores them in a vector DB, and retrieves them</td>
+<td>Chatbot that answers from company docs</td>
 <td>Fine-tuning (changes model weights; RAG does not)</td>
 </tr>
 <tr>
 <td><strong>Agents for Bedrock</strong> (now "Bedrock Agents Classic", in maintenance since July 30, 2026; AWS recommends Bedrock AgentCore for new agents. The exam may still use the older name)</td>
-<td>Lets an FM plan and execute multi-step tasks by calling APIs/tools</td>
+<td>Lets an FM plan and carry out tasks with many steps by calling APIs or tools</td>
 <td>&quot;Book a trip&quot;, &quot;process an order&quot;</td>
-<td>Plain prompting (single step)</td>
+<td>Plain prompting (one step)</td>
 </tr>
 <tr>
 <td><strong>Guardrails for Bedrock</strong></td>
-<td>Content filters, denied topics, word filters, PII redaction, grounding checks</td>
-<td>Block harmful or off-topic output</td>
+<td>Content filters, denied topics, word filters, PII redaction, and grounding checks</td>
+<td>Block harmful or off-topic answers</td>
 <td>IAM (access control, not content control)</td>
 </tr>
 <tr>
 <td><strong>PartyRock</strong></td>
-<td>No-code playground for building GenAI apps, backed by Bedrock</td>
+<td>No-code playground for building GenAI apps. It runs on Bedrock</td>
 <td>Learning and prototyping</td>
 <td>Bedrock itself (production API)</td>
 </tr>
 <tr>
 <td><strong>Amazon Q (Business / Developer)</strong> (Q Developer: new IDE sign-ups ended May 15, 2026 in favor of Kiro; in the console it is now called the AWS assistant)</td>
-<td>GenAI assistant. Business: answers from company data. Developer: coding help, in IDE/console</td>
-<td>Employee assistant; code generation, explanation</td>
+<td>GenAI assistant. Business: answers from company data. Developer: coding help in the IDE or console</td>
+<td>Employee assistant; writing and explaining code</td>
 <td>Bedrock (a platform for building; Q is a ready-made assistant)</td>
 </tr>
 <tr>
 <td><strong>Amazon SageMaker</strong></td>
-<td>Full ML platform: build, train, tune, deploy, monitor custom models</td>
-<td>Custom ML model lifecycle</td>
-<td>Bedrock (consumes ready-made FMs)</td>
+<td>A full ML platform to build, train, tune, deploy, and monitor your own models</td>
+<td>Every stage of a custom ML model</td>
+<td>Bedrock (uses ready-made FMs)</td>
 </tr>
 <tr>
 <td><strong>SageMaker JumpStart</strong></td>
-<td>Hub of pre-trained models and solution templates</td>
-<td>Quick-start with open-source/pre-trained models</td>
+<td>A hub of pre-trained models and ready-made solution templates</td>
+<td>Get started fast with open-source or pre-trained models</td>
 <td>Bedrock (JumpStart deploys models onto your own endpoints)</td>
 </tr>
 <tr>
 <td><strong>SageMaker Data Wrangler</strong></td>
-<td>Data prep/feature engineering with low-code UI</td>
-<td>Clean and transform data</td>
+<td>Prepare data and build features with a low-code screen</td>
+<td>Clean and reshape data</td>
 <td>Glue (general ETL)</td>
 </tr>
 <tr>
 <td><strong>SageMaker Feature Store</strong></td>
-<td>Central store of ML features for reuse</td>
+<td>One place to keep ML features so you can reuse them</td>
 <td>Share features between training and inference</td>
-<td>Data Wrangler (creates features, doesn&#39;t store them)</td>
+<td>Data Wrangler (creates features, does not store them)</td>
 </tr>
 <tr>
 <td><strong>SageMaker Model Monitor</strong></td>
-<td>Detects data/model quality drift in production</td>
-<td>Alert when model degrades</td>
+<td>Spots drift in data or model quality in production</td>
+<td>Send an alert when the model gets worse</td>
 <td>CloudWatch (infrastructure metrics)</td>
 </tr>
 <tr>
 <td><strong>SageMaker Clarify</strong></td>
-<td>Detects bias; explains predictions (explainability)</td>
+<td>Finds bias and explains predictions (explainability)</td>
 <td>Bias report; feature importance</td>
 <td>Model Monitor (drift)</td>
 </tr>
 <tr>
 <td><strong>SageMaker Model Cards</strong></td>
-<td>Document model purpose, data, risks, performance</td>
-<td>Governance and transparency documentation</td>
-<td>Clarify (analysis, not documentation)</td>
+<td>Write down a model&#39;s purpose, data, risks, and performance</td>
+<td>Records for governance and transparency</td>
+<td>Clarify (it analyzes; it does not document)</td>
 </tr>
 <tr>
 <td><strong>SageMaker Ground Truth</strong></td>
 <td>Data labeling with human workers</td>
 <td>Build labeled datasets</td>
-<td>A2I (human review of predictions, not labeling)</td>
+<td>A2I (people review predictions; it does not label data)</td>
 </tr>
 <tr>
 <td><strong>Amazon Augmented AI (A2I)</strong></td>
-<td>Human review workflow for low-confidence predictions</td>
-<td>Human-in-the-loop checks</td>
+<td>A workflow where people review predictions the model is unsure about</td>
+<td>Checks with a human in the loop</td>
 <td>Ground Truth</td>
 </tr>
 <tr>
 <td><strong>Amazon Comprehend</strong></td>
-<td>NLP: sentiment, entities, key phrases, language, PII detection, topic modeling</td>
+<td>NLP: finds sentiment, entities, key phrases, language, PII, and topics</td>
 <td>Analyze customer reviews</td>
 <td>Lex (conversation), Kendra (search)</td>
 </tr>
 <tr>
 <td><strong>Amazon Kendra</strong> (maintenance mode; closed to new customers from July 30, 2026, Bedrock Knowledge Bases is the suggested alternative)</td>
-<td>Intelligent enterprise search (natural language Q&amp;A over documents)</td>
+<td>Smart company search (ask questions in plain language and get answers from documents)</td>
 <td>Search company knowledge bases</td>
 <td>OpenSearch (general search/vector store)</td>
 </tr>
 <tr>
 <td><strong>Amazon Lex</strong></td>
-<td>Build conversational chatbots (voice/text)</td>
+<td>Build chatbots that talk with people (voice or text)</td>
 <td>Customer-service chatbot, IVR</td>
-<td>Comprehend (analysis, not dialogue)</td>
+<td>Comprehend (it analyzes text; it does not hold a conversation)</td>
 </tr>
 <tr>
 <td><strong>Amazon Polly</strong></td>
@@ -151,27 +151,27 @@
 </tr>
 <tr>
 <td><strong>Amazon Rekognition</strong></td>
-<td>Image/video analysis: objects, faces, moderation, text in images</td>
+<td>Analyzes images and video: objects, faces, unsafe content, text in images</td>
 <td>Detect unsafe content; face match</td>
 <td>Textract (document text/forms)</td>
 </tr>
 <tr>
 <td><strong>Amazon Textract</strong></td>
-<td>Extract text, tables, forms from scanned documents</td>
+<td>Pulls text, tables, and forms out of scanned documents</td>
 <td>Invoices, ID forms</td>
 <td>Rekognition</td>
 </tr>
 <tr>
 <td><strong>Amazon Personalize</strong></td>
-<td>Real-time personalized recommendations</td>
+<td>Recommendations tailored to each person, in real time</td>
 <td>&quot;Customers also bought&quot;</td>
-<td>Forecasting/ranking built by hand</td>
+<td>Forecasting or ranking built by hand</td>
 </tr>
 <tr>
 <td><strong>Amazon Fraud Detector</strong> (closed to new customers since Nov 7, 2025; still named in the exam guide's use cases)</td>
-<td>Detect online fraud using ML</td>
+<td>Uses ML to find online fraud</td>
 <td>Fake accounts, payment fraud</td>
-<td>Macie (sensitive data discovery)</td>
+<td>Macie (finds sensitive data)</td>
 </tr>
 </tbody></table>
 <h2>Data, storage, and vector databases</h2>
@@ -184,15 +184,15 @@
 </thead>
 <tbody><tr>
 <td><strong>Amazon S3</strong></td>
-<td>Primary store for training data, documents for RAG, model artifacts</td>
+<td>Main place to keep training data, documents for RAG, and model files</td>
 </tr>
 <tr>
 <td><strong>S3 Glacier</strong></td>
-<td>Cheap archival storage for old data</td>
+<td>Low-cost storage for old data you rarely need</td>
 </tr>
 <tr>
 <td><strong>Amazon OpenSearch Service</strong></td>
-<td>Vector store for embeddings; search and analytics</td>
+<td>Vector store for embeddings; also search and analytics</td>
 </tr>
 <tr>
 <td><strong>Aurora / RDS for PostgreSQL</strong></td>
@@ -200,15 +200,15 @@
 </tr>
 <tr>
 <td><strong>Amazon Neptune</strong></td>
-<td>Graph DB; vector store (GraphRAG). Knowledge Bases uses Neptune Analytics</td>
+<td>Graph DB and vector store (GraphRAG). Knowledge Bases uses Neptune Analytics</td>
 </tr>
 <tr>
 <td><strong>Amazon DocumentDB</strong></td>
-<td>MongoDB-compatible; vector search</td>
+<td>Works like MongoDB; supports vector search</td>
 </tr>
 <tr>
 <td><strong>DynamoDB / ElastiCache / MemoryDB</strong></td>
-<td>NoSQL, caching, in-memory DB (supporting roles)</td>
+<td>NoSQL, caching, and in-memory DB (helper roles)</td>
 </tr>
 <tr>
 <td><strong>AWS Glue / Glue DataBrew</strong></td>
@@ -216,11 +216,11 @@
 </tr>
 <tr>
 <td><strong>Amazon EMR</strong></td>
-<td>Big data processing (Spark)</td>
+<td>Processes very large data (Spark)</td>
 </tr>
 <tr>
 <td><strong>Lake Formation</strong></td>
-<td>Build and govern data lakes</td>
+<td>Build data lakes and control access to them</td>
 </tr>
 <tr>
 <td><strong>Amazon Redshift</strong></td>
@@ -232,10 +232,10 @@
 </tr>
 <tr>
 <td><strong>AWS Data Exchange</strong></td>
-<td>Find and subscribe to third-party datasets</td>
+<td>Find and sign up for datasets from other companies</td>
 </tr>
 </tbody></table>
-<p>Vector DB memory trick: <strong>O</strong>pen<strong>S</strong>earch, <strong>A</strong>urora/RDS-Postgres, <strong>N</strong>eptune, <strong>D</strong>ocumentDB (plus Bedrock Knowledge Bases manages these for you).</p>
+<p>Vector DB memory trick: <strong>O</strong>pen<strong>S</strong>earch, <strong>A</strong>urora/RDS-Postgres, <strong>N</strong>eptune, <strong>D</strong>ocumentDB (and Bedrock Knowledge Bases can manage these for you).</p>
 <h2>Security, governance, and compliance</h2>
 <table>
 <thead>
@@ -252,12 +252,12 @@
 </tr>
 <tr>
 <td><strong>AWS KMS</strong></td>
-<td>Create/manage encryption keys</td>
+<td>Create and manage encryption keys</td>
 <td>encryption at rest</td>
 </tr>
 <tr>
 <td><strong>Secrets Manager</strong></td>
-<td>Store and rotate secrets/API keys</td>
+<td>Store and rotate secrets and API keys</td>
 <td>credentials</td>
 </tr>
 <tr>
@@ -267,12 +267,12 @@
 </tr>
 <tr>
 <td><strong>Amazon Inspector</strong></td>
-<td>Vulnerability scanning (EC2, containers, Lambda)</td>
+<td>Scans for security weaknesses (EC2, containers, Lambda)</td>
 <td>vulnerabilities</td>
 </tr>
 <tr>
 <td><strong>AWS PrivateLink / VPC</strong></td>
-<td>Private connectivity, no public internet</td>
+<td>Private connections that do not use the public internet</td>
 <td>private access to Bedrock</td>
 </tr>
 <tr>
@@ -287,12 +287,12 @@
 </tr>
 <tr>
 <td><strong>AWS Config</strong></td>
-<td>Tracks resource configuration and compliance over time</td>
+<td>Tracks how your resources are set up, and whether they follow the rules, over time</td>
 <td>config drift</td>
 </tr>
 <tr>
 <td><strong>AWS Audit Manager</strong></td>
-<td>Automates evidence collection for audits</td>
+<td>Collects evidence for audits for you</td>
 <td>audit evidence</td>
 </tr>
 <tr>
@@ -302,17 +302,17 @@
 </tr>
 <tr>
 <td><strong>AWS Trusted Advisor</strong></td>
-<td>Best-practice checks: cost, security, performance</td>
+<td>Checks against best practices for cost, security, and performance</td>
 <td>recommendations</td>
 </tr>
 <tr>
 <td><strong>AWS Well-Architected Tool</strong></td>
-<td>Review workloads against best practices</td>
+<td>Compare your workloads to best practices</td>
 <td>architecture review</td>
 </tr>
 <tr>
 <td><strong>AWS Budgets / Cost Explorer</strong></td>
-<td>Set spending alerts / analyze costs</td>
+<td>Set spending alerts / look at your costs</td>
 <td>cost control</td>
 </tr>
 </tbody></table>

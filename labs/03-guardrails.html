@@ -20,33 +20,33 @@
 <li>Complete <a href="01-prompting.html">Lab 1</a> first (recommended)</li>
 </ul>
 <h2>Billable resources</h2>
-<p>Guardrail text evaluations and model invocations, both per use. Nothing runs continuously.</p>
+<p>Guardrail text checks and model calls, both billed per use. Nothing keeps running.</p>
 <h2>Steps</h2>
 <ol>
 <li>In Bedrock, open <strong>Guardrails &gt; Create guardrail</strong>.</li>
-<li><strong>Content filters:</strong> enable filters (hate, insults, sexual, violence, misconduct) and set strengths. Enable prompt-attack detection.</li>
+<li><strong>Content filters:</strong> turn on the filters (hate, insults, sexual, violence, misconduct) and set how strong each one is. Turn on prompt-attack detection.</li>
 <li><strong>Denied topics:</strong> add one, for example &quot;Investment advice&quot; with a short definition and examples.</li>
-<li><strong>Word filters:</strong> block a specific custom word or phrase.</li>
+<li><strong>Word filters:</strong> block one specific word or phrase of your choice.</li>
 <li><strong>Sensitive information filters:</strong> add PII types (for example, email, phone) set to <strong>mask</strong> or <strong>block</strong>.</li>
-<li>Optionally enable <strong>contextual grounding check</strong> if offered.</li>
-<li>Set the blocked-message text, create the guardrail, and create a version.</li>
+<li>Optionally turn on the <strong>contextual grounding check</strong> if it is offered.</li>
+<li>Write the blocked-message text, create the guardrail, and create a version.</li>
 <li>In the guardrail <strong>Test</strong> pane (or a playground with the guardrail attached), try:<ul>
 <li>an input on the denied topic</li>
 <li>an input containing a fake email address and phone number</li>
-<li>an &quot;ignore all previous instructions&quot; style prompt</li>
+<li>an &quot;ignore all previous instructions&quot; type of prompt</li>
 <li>a normal, harmless question</li>
 </ul>
 </li>
-<li>Note which were blocked, which were masked, and whether it applied to input, output, or both.</li>
+<li>Note which inputs were blocked, which were masked, and whether the guardrail worked on the input, the output, or both.</li>
 </ol>
 <h2>Cleanup</h2>
-<p>Delete the guardrail (and its versions) from the Guardrails page. Nothing else was created.</p>
+<p>Delete the guardrail (and its versions) from the Guardrails page. Nothing else was made.</p>
 <h2>Exam concepts this demonstrated</h2>
 <ul>
 <li>Guardrails for Amazon Bedrock as a responsible-AI tool (<a href="../domains/04-responsible-ai.html">domain 4</a>)</li>
 <li>Denied topics, content filters, PII redaction, grounding checks</li>
-<li>Defense against prompt attacks, which is complementary to IAM and encryption (<a href="../domains/05-security-governance-compliance.html">domain 5</a>)</li>
-<li>Guardrails vs IAM: guardrails control content; IAM controls access</li>
+<li>Defense against prompt attacks. It works alongside IAM and encryption (<a href="../domains/05-security-governance-compliance.html">domain 5</a>)</li>
+<li>Guardrails vs IAM: guardrails control content. IAM controls access</li>
 </ul>
 
 </main>
