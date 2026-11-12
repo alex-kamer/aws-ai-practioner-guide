@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Domain 4: Guidelines for Responsible AI (14%) | AIF-C01</title>
+<link rel="stylesheet" href="../assets/style.css">
+<script src="../assets/search-index.js"></script>
+<script src="../assets/mcq/d4.js"></script>
+<script src="../assets/app.js" defer></script>
+<script src="../assets/mcq.js" defer></script>
+</head>
+<body data-root="../">
+<main>
+<h1>Domain 4: Guidelines for Responsible AI (14%)</h1>
+<p class="small progress-summary"></p>
+<p>Source: AWS Certified AI Practitioner exam guide, version 1.4 (AIF-C01). Study aid, so verify against AWS docs.</p>
+<h2><label class="task-check"><input type="checkbox" data-task="4.1"> Studied</label>4.1 Develop responsible AI systems</h2>
+<p>Responsible AI is the practice of designing, building, and operating AI so that it is fair, safe, accurate, and accountable to the people it affects. A useful framing: a model that is accurate on average can still be irresponsible if it fails badly for some people, leaks private data, or cannot be explained to the person it harmed. The exam tests whether you can name the dimensions, match each risk to an AWS tool, and recognize the practices that reduce harm.</p>
+
+<h3>Core features of responsible AI</h3>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>What it means</th>
+<th>Example of failure</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Bias</strong></td>
+<td>Systematic error that favors or disfavors outcomes for certain groups, often inherited from data</td>
+<td>A resume screener trained on past hires keeps preferring the profile of past hires</td>
+</tr>
+<tr>
+<td><strong>Fairness</strong></td>
+<td>Similar people or groups receive similar treatment or outcomes, judged against a chosen definition</td>
+<td>Approval rates differ sharply between demographic groups with equal creditworthiness</td>
+</tr>
+<tr>
+<td><strong>Inclusivity</strong></td>
+<td>Data, design, and testing represent the full range of users</td>
+<td>A speech model trained mostly on one accent fails for others</td>
+</tr>
+<tr>
+<td><strong>Robustness</strong></td>
+<td>Reliable behavior under noisy, unexpected, or adversarial inputs</td>
+<td>A small image perturbation or a crafted prompt flips the output</td>
+</tr>
+<tr>
+<td><strong>Safety</strong></td>
+<td>The system does not cause harm to users or society</td>
+<td>A chatbot gives dangerous medical or self-harm advice</td>
+</tr>
+<tr>
+<td><strong>Veracity</strong></td>
+<td>Outputs are truthful and accurate</td>
+<td>A model invents a citation or policy that does not exist</td>
+</tr>
+<tr>
+<td><strong>Transparency</strong></td>
+<td>Open, accurate information about what the system is, how it was built, and its limits</td>
+<td>Users do not know they are talking to an AI or what data trained it</td>
+</tr>
+<tr>
+<td><strong>Explainability</strong></td>
+<td>Ability to describe why a specific output was produced</td>
+<td>A denied applicant cannot be told which factors drove the decision</td>
+</tr>
+<tr>
+<td><strong>Privacy</strong></td>
+<td>Personal data is protected in training, prompts, and outputs</td>
+<td>A model repeats a customer&#39;s account details in a response</td>
+</tr>
+<tr>
+<td><strong>Governance</strong></td>
+<td>Policies, roles, documentation, and audits that assign accountability</td>
+<td>No one owns the model, so no one reviews drift or incidents</td>
+</tr>
+</tbody></table>
+<p>Think of these as a safety checklist for a building: structure (robustness), fire exits (safety), honest signage (transparency), and an inspector who signs off (governance). Missing any one can make the whole building unfit to occupy.</p>
+<div class="callout"><p><strong>Exam tip:</strong> Match the risk to the word. Wrong or invented facts is veracity. Unequal outcomes across groups is fairness or bias. Failing on odd or malicious input is robustness. Being unable to say why is explainability.</p></div>
+
+<h3>Tools to detect and mitigate</h3>
+<p>AWS tools cover different stages: Guardrails act at inference time on prompts and responses, Clarify analyzes data and models, Model Monitor watches production, and A2I adds people to the loop. No single tool covers everything.</p>
+<table>
+<thead>
+<tr>
+<th>Tool</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Guardrails for Amazon Bedrock</strong></td>
+<td>Filter harmful content, deny topics, redact PII, check grounding</td>
+</tr>
+<tr>
+<td><strong>SageMaker Clarify</strong></td>
+<td>Detect bias in data/models; explain predictions</td>
+</tr>
+<tr>
+<td><strong>SageMaker Model Monitor</strong></td>
+<td>Monitor quality/bias drift in production</td>
+</tr>
+<tr>
+<td><strong>Amazon A2I</strong></td>
+<td>Human review of predictions</td>
+</tr>
+<tr>
+<td><strong>SageMaker Model Cards</strong></td>
+<td>Document a model&#39;s intended use, training data, evaluation results, and risk rating in one place</td>
+</tr>
+<tr>
+<td><strong>SageMaker Role Manager</strong></td>
+<td>Create persona-based IAM roles (for example data scientist or MLOps engineer) with least-privilege permissions</td>
+</tr>
+<tr>
+<td><strong>AWS AI Service Cards</strong></td>
+<td>AWS-published documentation of intended use cases, limitations, and responsible design choices for specific AWS AI services</td>
+</tr>
+<tr>
+<td>Human audits, subgroup analysis, label quality analysis</td>
+<td>Non-tool practices to detect bias and trustworthiness</td>
+</tr>
+</tbody></table>
+
+<h3>Guardrails for Amazon Bedrock in depth</h3>
+<p>Guardrails sit between your application and the model. They evaluate the user input before it reaches the model and the model output before it reaches the user, so one policy can be applied consistently even if you swap models. They can be attached to Bedrock model calls and can also be applied to text through a standalone API, which lets you check content from models hosted elsewhere. You configure the following policies:</p>
+<table>
+<thead>
+<tr>
+<th>Policy</th>
+<th>What it does</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Content filters</strong></td>
+<td>Block harmful categories such as hate, insults, sexual content, violence, and misconduct, with adjustable strength; also detect prompt attacks such as jailbreaks and prompt injection</td>
+<td>Stop a support bot from producing abusive replies</td>
+</tr>
+<tr>
+<td><strong>Denied topics</strong></td>
+<td>You define a topic in natural language and the guardrail blocks it in prompts and responses</td>
+<td>A banking assistant must not give investment advice</td>
+</tr>
+<tr>
+<td><strong>Word filters</strong></td>
+<td>Block specific words or phrases, including a managed profanity list</td>
+<td>Block competitor names or a product code name</td>
+</tr>
+<tr>
+<td><strong>Sensitive information filters</strong></td>
+<td>Detect PII and either block or mask it; custom patterns can be added with regular expressions</td>
+<td>Mask email addresses and phone numbers in a summary</td>
+</tr>
+<tr>
+<td><strong>Contextual grounding checks</strong></td>
+<td>Detect hallucinations by checking whether a response is grounded in the supplied source and relevant to the user&#39;s query</td>
+<td>In a RAG chatbot, flag answers not supported by the retrieved documents</td>
+</tr>
+</tbody></table>
+<p>Worked example: a RAG assistant for an insurance company. Content filters stop toxic language, a denied topic blocks legal advice about claims disputes, a sensitive information filter masks policy numbers, and a contextual grounding check rejects answers that are not supported by the retrieved policy text. Each layer addresses a different failure, which is why they are combined.</p>
+<div class="callout warn"><p><strong>Common trap:</strong> Contextual grounding checks do not make a model truthful in general. They compare a response with a reference source you supply, so they fit RAG and summarization. Denied topics and word filters are also different: a denied topic is a described subject, while a word filter is an exact-term list.</p></div>
+
+<h3>SageMaker Clarify, Model Monitor, and A2I</h3>
+<ul>
+<li><strong>SageMaker Clarify</strong> measures bias in a dataset before training (for example, imbalance between groups or in labels) and in a trained model after training (for example, differences in predictions between groups). It also produces feature attributions that show how much each input contributed to a prediction, which supports explainability. Clarify can also help evaluate foundation models for qualities such as toxicity and stereotyping.</li>
+<li><strong>SageMaker Model Monitor</strong> runs against a deployed endpoint or batch job and compares live traffic to a baseline. It can watch data quality, model quality, bias drift, and feature attribution drift. A model that was fair at launch can become unfair when real-world inputs shift, so monitoring is part of responsibility, not only of operations.</li>
+<li><strong>Amazon Augmented AI (A2I)</strong> routes predictions to human reviewers when a condition is met, such as low confidence, or on a random sample for auditing. Human reviews can be built into workflows for services such as Amazon Textract and Amazon Rekognition, or into custom ML workflows.</li>
+</ul>
+<div class="callout"><p><strong>Exam tip:</strong> Bias before training or in a model: Clarify. Bias or quality drifting after deployment: Model Monitor. A person must check borderline predictions: A2I. Filter or constrain a generative model&#39;s inputs and outputs: Guardrails.</p></div>
+
+<h3>Governance documentation: Model Cards, Role Manager, AI Service Cards</h3>
+<p>Governance answers who built a model, what it is for, and who may touch it. <strong>SageMaker Model Cards</strong> are a structured record of intended uses, training details, evaluation metrics, and risk, which a reviewer or auditor can read without interviewing the team. <strong>SageMaker Role Manager</strong> reduces over-permissioned access by generating roles for common ML personas. <strong>AWS AI Service Cards</strong> are the equivalent for AWS-managed AI services: they describe intended use cases, limitations, and best practices, so you know where a service should and should not be used. Use a Model Card for a model you build, and an AI Service Card to learn about a service AWS built.</p>
+<div class="callout warn"><p><strong>Common trap:</strong> Model Cards are documentation, not enforcement. They do not block a model from being misused, and they do not detect bias by themselves. Role Manager controls permissions, not model behavior.</p></div>
+
+<h3>Responsible model selection and sustainability</h3>
+<p>Choosing a model is an ethical decision as well as a technical one. Larger models usually consume more energy to train and to serve, so a smaller or distilled model that meets the accuracy target has a lower environmental footprint and cost. Also consider whether the model was trained on appropriately licensed data, how it performs across your user groups, what documentation the provider offers, and whether it can be evaluated against your safety requirements. Practices that reduce impact include picking the smallest adequate model, reusing a pre-trained foundation model instead of training from scratch, and avoiding unnecessary retraining.</p>
+
+<h3>Legal risks of generative AI</h3>
+<table>
+<thead>
+<tr>
+<th>Risk</th>
+<th>Why it happens</th>
+<th>Mitigation direction</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Intellectual property infringement</td>
+<td>Output may resemble copyrighted material, or training data was used without rights</td>
+<td>Understand provider terms and data provenance; review outputs; use licensed data</td>
+</tr>
+<tr>
+<td>Biased outputs</td>
+<td>Training data reflects historical or sampling bias</td>
+<td>Diverse data, bias testing, guardrails, human review</td>
+</tr>
+<tr>
+<td>Loss of customer trust</td>
+<td>Harmful, wrong, or opaque behavior becomes public</td>
+<td>Transparency, safeguards, clear escalation paths</td>
+</tr>
+<tr>
+<td>End-user risk</td>
+<td>Users act on harmful or wrong output, or expose private data</td>
+<td>Disclaimers, grounding, PII filtering, human oversight for high-stakes use</td>
+</tr>
+<tr>
+<td>Hallucinations</td>
+<td>Models produce fluent text without guaranteeing it is true</td>
+<td>RAG, contextual grounding checks, source citation, human review</td>
+</tr>
+</tbody></table>
+
+<h3>Dataset characteristics and bias</h3>
+<p>Models learn the patterns in their data, including the unfair ones. Good datasets are:</p>
+<ul>
+<li><strong>Diverse:</strong> they cover varied demographics, languages, contexts, and edge cases.</li>
+<li><strong>Curated:</strong> drawn from sources you can vouch for, with known provenance and quality checks, rather than scraped indiscriminately.</li>
+<li><strong>Balanced:</strong> classes and groups are represented in sensible proportions, so a minority group is not drowned out.</li>
+<li><strong>Inclusive:</strong> they involve and represent the people the system will serve.</li>
+</ul>
+<p>When real data for a group is scarce, <strong>synthetic data</strong> can fill gaps, and re-sampling or re-weighting can rebalance. The goal is a representative dataset, but synthetic data must itself be checked, since it can copy the biases of its source. Label quality also matters: if human annotators applied labels inconsistently or with prejudice, the model learns that.</p>
+
+<h3>Effects of bias and variance</h3>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>High bias</th>
+<th>High variance</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Fit</td>
+<td>Underfitting: model too simple to capture the pattern</td>
+<td>Overfitting: model memorizes training data, including noise</td>
+</tr>
+<tr>
+<td>Symptom</td>
+<td>Poor accuracy on training and test data</td>
+<td>Excellent on training data, poor on new data</td>
+</tr>
+<tr>
+<td>Fairness impact</td>
+<td>Consistently inaccurate, often worst for under-represented groups</td>
+<td>Unstable results that generalize poorly to groups with little data</td>
+</tr>
+</tbody></table>
+<p>Analogy: a student who only learned one rule of thumb (underfit) versus a student who memorized last year&#39;s answer key (overfit). Neither handles a new exam well. Note that this &quot;bias&quot; is a statistical term for error from overly simple assumptions, which is related to, but not the same as, societal bias in the data. Both can produce demographic group disparities when the data under-represents a group.</p>
+
+<h3>Detecting problems in practice</h3>
+<ul>
+<li><strong>Subgroup analysis:</strong> compute accuracy, error rates, and other metrics for each demographic group separately. A strong overall score can hide a weak group. For example, 95 percent overall accuracy is misleading if accuracy is 99 percent for the majority and 70 percent for a smaller group.</li>
+<li><strong>Human audits:</strong> reviewers inspect samples of outputs, decisions, and labels for bias, errors, and policy violations. They catch problems that metrics miss.</li>
+<li><strong>Label quality analysis:</strong> check annotator agreement and review label guidelines.</li>
+<li><strong>Representative test data:</strong> evaluate on data that reflects real production users, not just the training distribution.</li>
+</ul>
+<div class="callout warn"><p><strong>Common trap:</strong> Adding more data does not fix bias if the new data has the same skew. Look for answers that improve diversity, balance, and representation, not just volume.</p></div>
+
+<h3>Key takeaways: 4.1</h3>
+<ul>
+<li>Know the feature list: bias, fairness, inclusivity, robustness, safety, veracity, plus transparency, explainability, privacy, and governance.</li>
+<li>Guardrails: content filters, denied topics, word filters, sensitive information filters, contextual grounding checks.</li>
+<li>Clarify detects bias and explains; Model Monitor tracks drift; A2I adds human review; Model Cards and AI Service Cards document; Role Manager limits access.</li>
+<li>Good data is diverse, curated, balanced, and inclusive; overall accuracy can hide subgroup failures.</li>
+<li>Underfitting (high bias) and overfitting (high variance) both harm generalization and can disadvantage under-represented groups.</li>
+</ul>
+<h2><label class="task-check"><input type="checkbox" data-task="4.2"> Studied</label>4.2 Transparent and explainable models</h2>
+<p>People affected by an automated decision, and the regulators and teams responsible for it, need to trust it. Trust comes from being able to see how a system was built and why it produced a given result.</p>
+
+<h3>Transparent models versus black boxes</h3>
+<p><strong>Transparent</strong> models have logic a person can follow directly, such as linear and logistic regression or small decision trees: you can read the coefficients or the branches. <strong>Black-box</strong> models, such as deep neural networks and large foundation models, have millions or billions of parameters, so no one can trace a decision by reading them. For these, you rely on <strong>post-hoc explanation</strong> methods that estimate which inputs mattered.</p>
+<p>Two terms are often confused. <strong>Interpretability</strong> is how well a human can understand the model&#39;s internal mechanics. <strong>Explainability</strong> is the ability to describe, in human terms, why the model produced a particular output, even if the internals are opaque. Transparency is broader: openness about data, design, and limits.</p>
+<p>Worked example, loan approval. A bank uses a decision tree and can tell a rejected applicant: &quot;your debt-to-income ratio exceeded the threshold.&quot; If it uses a deep network instead, it might run SageMaker Clarify to compute feature attributions showing that income and credit history drove the denial. It can also check that a protected attribute or a proxy for one (such as postal code) is not driving outcomes. A human reviewer through A2I can handle borderline cases.</p>
+<div class="callout"><p><strong>Exam tip:</strong> Questions about telling a customer why they were denied point to explainability tools (Clarify feature attributions) and transparent models. Questions about documenting purpose and risk point to Model Cards.</p></div>
+
+<h3>Tradeoffs</h3>
+<table>
+<thead>
+<tr>
+<th>Tradeoff</th>
+<th>Explanation</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Interpretability vs performance</td>
+<td>Simple models are easy to explain but may miss complex patterns; complex models often perform better but are harder to explain. Pick by stakes: high-stakes, regulated decisions favor interpretability, while low-stakes tasks can accept opacity for accuracy.</td>
+</tr>
+<tr>
+<td>Transparency vs safety</td>
+<td>Revealing too much about a system, such as its detailed safeguards, can help attackers evade them. Disclosing internals must be balanced against security.</td>
+</tr>
+<tr>
+<td>Open-source vs proprietary</td>
+<td>Open models allow inspection, customization, and community review, but you carry more responsibility for safety, support, and license compliance. Proprietary models may come with vendor support and safeguards but offer less visibility into training data and internals.</td>
+</tr>
+</tbody></table>
+<div class="callout warn"><p><strong>Common trap:</strong> Do not assume more accurate is always better or that interpretable means weak. The right answer depends on the use case and its risk. Also, open-source does not automatically mean transparent about training data.</p></div>
+
+<h3>Tools and documentation for transparency</h3>
+<ul>
+<li><strong>SageMaker Model Cards:</strong> record intended use, data, evaluation, and risks for models you build.</li>
+<li><strong>AWS AI Service Cards:</strong> describe intended use cases and limitations of AWS AI services.</li>
+<li><strong>SageMaker Clarify:</strong> feature attributions explain individual predictions and the model overall.</li>
+<li><strong>Open-source models:</strong> weights and often documentation can be examined.</li>
+<li><strong>Data lineage and cataloging:</strong> track where data came from and how it was transformed, and register datasets in a catalog (for example, the AWS Glue Data Catalog) so that origins, ownership, and schema are documented.</li>
+<li><strong>Source citation:</strong> in RAG applications, return the documents behind an answer so users can verify it. Knowledge Bases for Amazon Bedrock can return source attributions.</li>
+<li><strong>Documenting data origins and licensing:</strong> keep records of sources, consent, and license terms so you can answer provenance questions.</li>
+</ul>
+
+<h3>Human-centered design for explainable AI</h3>
+<ul>
+<li><strong>Keep humans in the loop:</strong> allow review, override, and appeal for consequential decisions.</li>
+<li><strong>Explain for the audience:</strong> a data scientist needs feature attributions; a loan applicant needs plain language and actionable steps.</li>
+<li><strong>Design for user needs:</strong> involve diverse users in design and testing, and communicate uncertainty and limits honestly.</li>
+<li><strong>Disclose AI use:</strong> tell users when they interact with or are assessed by AI.</li>
+<li><strong>Provide feedback channels:</strong> let users report errors and harms, then act on them.</li>
+</ul>
+
+<h3>Key takeaways: 4.2</h3>
+<ul>
+<li>Transparent models (linear, trees) can be read; black boxes need post-hoc explanation such as Clarify attributions.</li>
+<li>Interpretability usually trades against raw performance; match the choice to the stakes.</li>
+<li>Model Cards, AI Service Cards, data lineage, cataloging, source citation, and documented data origins are the transparency toolkit.</li>
+<li>Open-source offers inspectability; proprietary offers support; both require due diligence.</li>
+<li>Human-centered design means explanations suited to the audience and humans able to review and override.</li>
+</ul>
+
+<div class="quiz-head"><h2 id="quiz" style="flex:1">Self-check questions</h2><span class="score"></span> <button class="quiz-reset">Reset</button></div>
+<p class="small">Try to answer first, then reveal and mark yourself. Your score is saved in this browser.</p>
+<ol class="quiz">
+<li>
+<p class="q">List four features of responsible AI.</p>
+<div class="a">Any of: bias, fairness, inclusivity, robustness, safety, veracity (also transparency, explainability, privacy, governance). These are the standard dimensions the exam expects you to recognize.</div>
+</li>
+<li>
+<p class="q">Which Bedrock feature filters harmful content and redacts PII?</p>
+<div class="a">Guardrails for Amazon Bedrock, because it applies content filters and sensitive information filters to both prompts and responses.</div>
+</li>
+<li>
+<p class="q">Which service detects bias in data and explains predictions?</p>
+<div class="a">SageMaker Clarify, which measures bias in data and models and provides feature attributions for explainability.</div>
+</li>
+<li>
+<p class="q">Name three legal risks of generative AI.</p>
+<div class="a">Any three of: IP infringement, biased outputs, loss of customer trust, end-user risk, hallucinations; each can create legal or reputational exposure.</div>
+</li>
+<li>
+<p class="q">What makes a dataset good for fairness?</p>
+<div class="a">Inclusive, diverse, balanced, and from curated sources, so that no group is under-represented and the model does not learn skewed patterns.</div>
+</li>
+<li>
+<p class="q">What problem does high variance cause?</p>
+<div class="a">Overfitting, because the model memorizes training data and generalizes poorly to new data.</div>
+</li>
+<li>
+<p class="q">What is subgroup analysis?</p>
+<div class="a">Evaluating model performance separately for each demographic group, since overall accuracy can hide poor results for one group.</div>
+</li>
+<li>
+<p class="q">What do SageMaker Model Cards provide?</p>
+<div class="a">Documentation of a model&#39;s intended use, data, risks, and performance, which supports governance and transparency.</div>
+</li>
+<li>
+<p class="q">Describe the interpretability vs performance tradeoff.</p>
+<div class="a">Simpler models are easier to interpret but often less accurate, while complex models are often more accurate but opaque; choose based on the stakes of the decision.</div>
+</li>
+<li>
+<p class="q">What does A2I add to a prediction workflow?</p>
+<div class="a">Human review of predictions, typically low-confidence ones or a random sample, so people can verify or correct automated results.</div>
+</li>
+<li>
+<p class="q">A bank&#39;s RAG chatbot sometimes states policy terms that are not in the retrieved documents. Which Guardrails feature addresses this?</p>
+<div class="a">Contextual grounding checks, because they test whether a response is supported by the source and relevant to the query.</div>
+</li>
+<li>
+<p class="q">A model approves loans at very different rates for two demographic groups. Which service helps measure this?</p>
+<div class="a">SageMaker Clarify, because it computes bias metrics on data and model predictions.</div>
+</li>
+<li>
+<p class="q">A fair model at launch becomes biased months later as customer mix changes. Which service would have flagged it?</p>
+<div class="a">SageMaker Model Monitor, because it tracks bias drift and data drift against a baseline in production.</div>
+</li>
+<li>
+<p class="q">A model scores 99 percent on training data but 70 percent on new data. What is the problem and a fairness risk?</p>
+<div class="a">Overfitting (high variance); it generalizes poorly, especially to groups with little training data.</div>
+</li>
+<li>
+<p class="q">A lender must tell a rejected applicant which factors drove the decision. Which approach fits best?</p>
+<div class="a">Use an interpretable model or explain predictions with Clarify feature attributions, because the applicant needs reasons for the specific decision.</div>
+</li>
+<li>
+<p class="q">Which tool creates persona-based IAM roles for ML teams, and which documents an AWS AI service&#39;s intended use and limits?</p>
+<div class="a">SageMaker Role Manager creates the roles; AWS AI Service Cards document the service, since one governs access and the other documents use.</div>
+</li>
+</ol>
+<h2 id="mcq-practice">Multiple-choice practice</h2>
+<p class="small">Exam-style questions for this domain. Pick an answer to see the explanation. For a mixed, timed run, use the <a href="../practice/exam.html">practice exam</a>.</p>
+<div id="mcq" data-domain="4"></div>
+</main>
+<footer>Study aid based on the AWS AIF-C01 exam guide v1.4. Verify against AWS docs.</footer>
+</body>
+</html>

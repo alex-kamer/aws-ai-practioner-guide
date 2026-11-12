@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gap Map | AIF-C01 Study Guide</title>
+<link rel="stylesheet" href="../assets/style.css">
+<script src="../assets/search-index.js"></script>
+<script src="../assets/app.js" defer></script>
+<script src="../assets/gapmap.js" defer></script>
+</head>
+<body data-root="../">
+<main class="gm">
+<h1>Gap Map</h1>
+<p class="lead">Enter your results after each practice exam. The page ranks domains for you and saves everything in this browser.</p>
+
+<h2>How ranking works</h2>
+<div class="callout">
+<p><b>priority = (100 − score%) × domain weight%.</b> Highest priority gets studied first. Ties go to the lower confidence (1 = guessing, 5 = could teach it).</p>
+</div>
+
+<h2>Your attempts</h2>
+<div class="toolbar">
+  <label for="attempt-select">Attempt:</label>
+  <select id="attempt-select"></select>
+  <button id="add-attempt" class="primary">+ New attempt</button>
+  <button id="rename-attempt">Rename</button>
+  <button id="delete-attempt" class="bad">Delete</button>
+</div>
+
+<table id="gap-table">
+  <thead>
+    <tr><th>Domain</th><th>Weight</th><th>Score %</th><th>Missed topics</th><th>Confidence</th><th>Priority</th><th>Rank</th><th>Study</th></tr>
+  </thead>
+  <tbody></tbody>
+</table>
+
+<h2 id="order">Study order</h2>
+<div id="order-out" class="card"><p class="small">Enter at least one score to see your ranking.</p></div>
+
+<h2>Back up your data</h2>
+<p class="small">Browser storage is per-browser, and clearing site data erases it. Export a copy now and then.</p>
+<div class="toolbar">
+  <button id="export-btn">Export JSON</button>
+  <label class="btn" style="cursor:pointer;border:1px solid var(--border);border-radius:8px;padding:.32rem .85rem;font-size:.84rem">Import JSON<input id="import-file" type="file" accept="application/json" hidden></label>
+</div>
+<textarea id="export-out" style="display:none;width:100%;min-height:8rem" readonly></textarea>
+
+<h2>Worked example</h2>
+<p>A learner scores D1 80%, D2 60%, D3 50%, D4 90%, D5 70%.</p>
+<table>
+  <thead><tr><th>Domain</th><th>Score</th><th>Weight</th><th>Priority</th></tr></thead>
+  <tbody>
+    <tr><td>D3 FM applications</td><td>50</td><td>28</td><td>1400</td></tr>
+    <tr><td>D2 Generative AI</td><td>60</td><td>24</td><td>960</td></tr>
+    <tr><td>D5 Security</td><td>70</td><td>14</td><td>420</td></tr>
+    <tr><td>D1 AI/ML</td><td>80</td><td>20</td><td>400</td></tr>
+    <tr><td>D4 Responsible AI</td><td>90</td><td>14</td><td>140</td></tr>
+  </tbody>
+</table>
+<p>Study order: D3, D2, D5, D1, D4.</p>
+</main>
+<footer>Study aid based on the AWS AIF-C01 exam guide v1.4.</footer>
+</body>
+</html>

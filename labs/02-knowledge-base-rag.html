@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lab 2: Knowledge Base (RAG) with Amazon Bedrock | AIF-C01</title>
+<link rel="stylesheet" href="../assets/style.css">
+<script src="../assets/search-index.js"></script>
+<script src="../assets/app.js" defer></script>
+</head>
+<body data-root="../">
+<main>
+<h1>Lab 2: Knowledge Base (RAG) with Amazon Bedrock</h1>
+<p><strong>Domain:</strong> 3 (3.1 RAG, vector databases, customization cost tradeoffs)
+<strong>Time:</strong> about 45-60 minutes
+<strong>Estimated cost:</strong> a few dollars <strong>if you clean up the same day</strong>. Some vector stores (notably OpenSearch Serverless) bill by the hour while they exist, so they can cost much more if left running. Check the current Bedrock and vector store pricing pages before you start.</p>
+<h2>Prerequisites</h2>
+<ul>
+<li>AWS account with Bedrock access, plus access to one embedding model and one text model in your region</li>
+<li>2-3 small text or PDF documents you don&#39;t mind uploading (public docs are fine; no sensitive data)</li>
+<li>Complete <a href="01-prompting.html">Lab 1</a> first (recommended)</li>
+</ul>
+<h2>Billable resources</h2>
+<ul>
+<li>S3 bucket (tiny)</li>
+<li>Vector store created for the knowledge base (the main cost; prefer the cheapest option the console offers, such as S3 Vectors if available, and avoid leaving OpenSearch Serverless running)</li>
+<li>Embedding and model invocation tokens</li>
+</ul>
+<p><strong>Set an AWS Budget alert (for example, $10) before you begin.</strong></p>
+<h2>Steps</h2>
+<ol>
+<li>Create an S3 bucket and upload your documents.</li>
+<li>In Bedrock, go to <strong>Knowledge Bases &gt; Create knowledge base</strong>. Choose S3 as the data source and point to your bucket.</li>
+<li>Choose an embedding model and let the console quick-create the vector store (note which store it uses).</li>
+<li>Create the knowledge base and run <strong>Sync</strong> so documents are chunked, embedded, and indexed.</li>
+<li>Use the <strong>Test</strong> pane: select a text model and ask a question only answerable from your documents. Check the source citations.</li>
+<li>Ask a question not in your documents. Observe how the model behaves compared with a no-RAG chat (Lab 1).</li>
+<li>Change the chunking or number of retrieved results if the console allows and see how answers change.</li>
+</ol>
+<h2>Cleanup (do this the same day)</h2>
+<ol>
+<li>Delete the <strong>knowledge base</strong>.</li>
+<li>Delete the <strong>vector store</strong> it created (for example, OpenSearch Serverless collection, Aurora cluster, or vector bucket), because deleting the knowledge base may not delete it.</li>
+<li>Delete the S3 bucket contents and bucket.</li>
+<li>Delete any IAM service role created for it, if you don&#39;t need it.</li>
+<li>Confirm in the OpenSearch/RDS/S3 consoles that nothing remains, and check Billing next day.</li>
+</ol>
+<h2>Exam concepts this demonstrated</h2>
+<ul>
+<li>RAG flow: chunk, embed, store in vector DB, retrieve, augment prompt, generate</li>
+<li>Vector store options (OpenSearch, Aurora/RDS PostgreSQL, Neptune, DocumentDB)</li>
+<li>RAG vs fine-tuning: RAG needs no retraining and uses current data (<a href="../domains/03-foundation-model-applications.html">domain 3</a>)</li>
+<li>Source citations and data origins (<a href="../domains/05-security-governance-compliance.html">domain 5</a>)</li>
+</ul>
+
+</main>
+<footer>Study aid based on the AWS AIF-C01 exam guide v1.4. Verify against AWS docs.</footer>
+</body>
+</html>

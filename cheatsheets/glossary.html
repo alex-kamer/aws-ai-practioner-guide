@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Glossary | AIF-C01</title>
+<link rel="stylesheet" href="../assets/style.css">
+<script src="../assets/search-index.js"></script>
+<script src="../assets/app.js" defer></script>
+</head>
+<body data-root="../">
+<main class="wide">
+<h1>Glossary</h1>
+<p>Study aid for AIF-C01. Terms are grouped by topic. The domain number shows where the exam tests it.</p>
+<h2>Core AI/ML (Domain 1)</h2>
+<ul>
+<li><strong>AI</strong>: Systems that perform tasks normally requiring human intelligence. The broadest term.</li>
+<li><strong>ML</strong>: A subset of AI where models learn patterns from data instead of being explicitly programmed.</li>
+<li><strong>Deep learning</strong>: A subset of ML using multi-layer neural networks. Needs lots of data and compute.</li>
+<li><strong>Neural network</strong>: Layers of connected nodes (&quot;neurons&quot;) that learn weights from data.</li>
+<li><strong>Model / algorithm</strong>: The algorithm is the learning procedure; the model is the trained result used for predictions.</li>
+<li><strong>Training vs inference</strong>: Training builds the model from data; inference uses it to predict on new data. Inference can be <strong>batch</strong> (many at once, not time-critical) or <strong>real-time</strong> (low latency, one request at a time).</li>
+<li><strong>Supervised learning</strong>: Learns from labeled data (classification, regression).</li>
+<li><strong>Unsupervised learning</strong>: Finds structure in unlabeled data (clustering).</li>
+<li><strong>Reinforcement learning</strong>: An agent learns by trial and reward (and RLHF uses human feedback).</li>
+<li><strong>Classification / regression / clustering</strong>: Predict a category / predict a number / group similar items.</li>
+<li><strong>Labeled vs unlabeled data</strong>: Labeled has the right answer attached. Data can be structured (tables) or unstructured (text, images), and may be time-series.</li>
+<li><strong>Computer vision / NLP</strong>: AI on images and video / on human language.</li>
+<li><strong>Feature / feature engineering</strong>: An input variable / creating and transforming inputs to help the model.</li>
+<li><strong>Hyperparameter</strong>: A setting you choose before training (learning rate, number of layers), not learned from data.</li>
+<li><strong>Overfitting</strong>: Model memorizes training data and does poorly on new data (low bias, high variance).</li>
+<li><strong>Underfitting</strong>: Model is too simple to capture the patterns (high bias, low variance).</li>
+<li><strong>Bias (statistical) vs variance</strong>: Bias is error from oversimplifying; variance is sensitivity to training data noise. Not the same as societal bias.</li>
+<li><strong>Precision / recall</strong>: Precision = of the items predicted positive, how many were right. Recall = of the real positives, how many were found.</li>
+<li><strong>Accuracy</strong>: Share of all predictions that were correct. Misleading with imbalanced classes.</li>
+<li><strong>F1 score</strong>: Balance of precision and recall.</li>
+<li><strong>AUC (ROC)</strong>: How well a classifier separates classes across thresholds. 1.0 is perfect, 0.5 is random.</li>
+<li><strong>Confusion matrix</strong>: Table of true/false positives and negatives.</li>
+<li><strong>MLOps</strong>: Applying DevOps practices to ML: repeatable pipelines, monitoring, and retraining.</li>
+<li><strong>ML pipeline</strong>: Data collection, EDA, pre-processing, feature engineering, training, tuning, evaluation, deployment, monitoring.</li>
+<li><strong>EDA</strong>: Exploratory data analysis, understanding the data before modeling.</li>
+<li><strong>Model drift / data drift</strong>: Model performance degrades as real-world data changes over time.</li>
+</ul>
+<h2>Generative AI (Domains 2 and 3)</h2>
+<ul>
+<li><strong>Generative AI</strong>: Models that create new content (text, images, audio, code).</li>
+<li><strong>Foundation model (FM)</strong>: Large model pre-trained on broad data, adaptable to many tasks.</li>
+<li><strong>LLM</strong>: A foundation model for language, built on the transformer architecture.</li>
+<li><strong>Transformer</strong>: Architecture using attention to model relationships among tokens. Basis of most LLMs.</li>
+<li><strong>Token</strong>: A chunk of text (word piece) the model reads and generates. Pricing and limits are token-based.</li>
+<li><strong>Context window</strong>: Maximum number of tokens (input plus output) a model can handle at once.</li>
+<li><strong>Embedding</strong>: A numeric vector representing the meaning of text/images. Similar meaning = nearby vectors.</li>
+<li><strong>Vector database</strong>: Stores embeddings for similarity search.</li>
+<li><strong>Chunking</strong>: Splitting documents into pieces before embedding them.</li>
+<li><strong>RAG (Retrieval-Augmented Generation)</strong>: Retrieve relevant documents at query time and add them to the prompt. Reduces hallucination and uses fresh data without retraining.</li>
+<li><strong>Multi-modal model</strong>: Handles more than one data type (text and images).</li>
+<li><strong>Diffusion model</strong>: Generates images by gradually removing noise. Used by image-generation models.</li>
+<li><strong>Prompt / prompt engineering</strong>: The input to the model / crafting inputs to get better outputs.</li>
+<li><strong>Zero-shot / one-shot (single-shot) / few-shot</strong>: No examples / one example / several examples in the prompt.</li>
+<li><strong>Chain-of-thought</strong>: Prompting the model to reason step by step.</li>
+<li><strong>Negative prompt</strong>: Tells the model what to avoid.</li>
+<li><strong>Prompt template</strong>: Reusable prompt with placeholders.</li>
+<li><strong>Temperature</strong>: Randomness of output. Low = focused and deterministic; high = creative and varied.</li>
+<li><strong>Top-p / top-k</strong>: Limit the pool of candidate next tokens. Lower values = more predictable.</li>
+<li><strong>Max tokens / stop sequences</strong>: Limit output length / where to stop.</li>
+<li><strong>Hallucination</strong>: Confident but false or made-up output.</li>
+<li><strong>Nondeterminism</strong>: The same prompt can give different outputs.</li>
+<li><strong>Pre-training</strong>: Initial training on massive data to build an FM.</li>
+<li><strong>Continuous pre-training</strong>: Further pre-training on unlabeled domain data.</li>
+<li><strong>Fine-tuning</strong>: Further training on labeled data for a task or domain. Changes model weights.</li>
+<li><strong>Instruction tuning</strong>: Fine-tuning with (instruction, response) pairs so the model follows directions.</li>
+<li><strong>Transfer learning</strong>: Reusing a model trained on one task as the starting point for another.</li>
+<li><strong>In-context learning</strong>: Teaching the model through examples in the prompt, with no weight changes.</li>
+<li><strong>RLHF</strong>: Reinforcement learning from human feedback; aligns outputs with human preferences.</li>
+<li><strong>Agent</strong>: FM that plans and calls tools/APIs to complete multi-step tasks.</li>
+<li><strong>Provisioned throughput</strong>: Reserved Bedrock model capacity (commitment), needed for custom models. Versus <strong>on-demand</strong>, pay-per-token.</li>
+<li><strong>ROUGE</strong>: Evaluation metric for summarization (overlap with reference, recall-oriented).</li>
+<li><strong>BLEU</strong>: Evaluation metric for translation (precision-oriented n-gram overlap).</li>
+<li><strong>BERTScore</strong>: Semantic-similarity metric using embeddings.</li>
+<li><strong>Benchmark dataset</strong>: Standard dataset for comparing models.</li>
+</ul>
+<h2>Responsible AI (Domain 4)</h2>
+<ul>
+<li><strong>Fairness</strong>: Model treats groups equitably.</li>
+<li><strong>Bias (societal)</strong>: Systematic unfair outcomes, often from unrepresentative data.</li>
+<li><strong>Explainability / interpretability</strong>: Ability to understand why a model made a prediction.</li>
+<li><strong>Transparency</strong>: Openness about how the model works, was trained, and its limits.</li>
+<li><strong>Robustness</strong>: Reliable performance under unexpected or adversarial input.</li>
+<li><strong>Veracity</strong>: Truthfulness of outputs.</li>
+<li><strong>Subgroup analysis</strong>: Evaluating performance separately per demographic group.</li>
+<li><strong>Human-centered design</strong>: Designing AI around human needs, oversight, and clarity.</li>
+</ul>
+<h2>Security and governance (Domain 5)</h2>
+<ul>
+<li><strong>Prompt injection</strong>: Malicious input that overrides the model&#39;s instructions.</li>
+<li><strong>Jailbreaking</strong>: Prompts crafted to bypass safety restrictions.</li>
+<li><strong>Prompt poisoning / hijacking / exposure</strong>: Tampered data/instructions, taking over the model&#39;s behavior, leaking prompt contents.</li>
+<li><strong>Shared responsibility model</strong>: AWS secures the cloud (infrastructure); you secure what is in the cloud (data, IAM, configuration).</li>
+<li><strong>Least privilege</strong>: Grant only the permissions needed.</li>
+<li><strong>Data lineage</strong>: Record of where data came from and how it changed.</li>
+<li><strong>Data residency</strong>: Requirement that data stays in a specific region or country.</li>
+<li><strong>Generative AI Security Scoping Matrix</strong>: AWS framework that classifies GenAI use (from using a public app to training your own model) to scope security responsibilities.</li>
+<li><strong>PII</strong>: Personally identifiable information.</li>
+</ul>
+
+</main>
+<footer>Study aid based on the AWS AIF-C01 exam guide v1.4. Verify against AWS docs.</footer>
+</body>
+</html>

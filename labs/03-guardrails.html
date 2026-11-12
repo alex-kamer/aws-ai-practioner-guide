@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lab 3: Guardrails for Amazon Bedrock | AIF-C01</title>
+<link rel="stylesheet" href="../assets/style.css">
+<script src="../assets/search-index.js"></script>
+<script src="../assets/app.js" defer></script>
+</head>
+<body data-root="../">
+<main>
+<h1>Lab 3: Guardrails for Amazon Bedrock</h1>
+<p><strong>Domain:</strong> 4 (4.1 responsible AI tools), also 3.2 (prompt risks) and 5.1 (security)
+<strong>Time:</strong> about 30-45 minutes
+<strong>Estimated cost:</strong> under $1 (guardrail evaluations and model tokens are billed per use)</p>
+<h2>Prerequisites</h2>
+<ul>
+<li>AWS account with Bedrock access and one text model enabled</li>
+<li>Complete <a href="01-prompting.html">Lab 1</a> first (recommended)</li>
+</ul>
+<h2>Billable resources</h2>
+<p>Guardrail text evaluations and model invocations, both per use. Nothing runs continuously.</p>
+<h2>Steps</h2>
+<ol>
+<li>In Bedrock, open <strong>Guardrails &gt; Create guardrail</strong>.</li>
+<li><strong>Content filters:</strong> enable filters (hate, insults, sexual, violence, misconduct) and set strengths. Enable prompt-attack detection.</li>
+<li><strong>Denied topics:</strong> add one, for example &quot;Investment advice&quot; with a short definition and examples.</li>
+<li><strong>Word filters:</strong> block a specific custom word or phrase.</li>
+<li><strong>Sensitive information filters:</strong> add PII types (for example, email, phone) set to <strong>mask</strong> or <strong>block</strong>.</li>
+<li>Optionally enable <strong>contextual grounding check</strong> if offered.</li>
+<li>Set the blocked-message text, create the guardrail, and create a version.</li>
+<li>In the guardrail <strong>Test</strong> pane (or a playground with the guardrail attached), try:<ul>
+<li>an input on the denied topic</li>
+<li>an input containing a fake email address and phone number</li>
+<li>an &quot;ignore all previous instructions&quot; style prompt</li>
+<li>a normal, harmless question</li>
+</ul>
+</li>
+<li>Note which were blocked, which were masked, and whether it applied to input, output, or both.</li>
+</ol>
+<h2>Cleanup</h2>
+<p>Delete the guardrail (and its versions) from the Guardrails page. Nothing else was created.</p>
+<h2>Exam concepts this demonstrated</h2>
+<ul>
+<li>Guardrails for Amazon Bedrock as a responsible-AI tool (<a href="../domains/04-responsible-ai.html">domain 4</a>)</li>
+<li>Denied topics, content filters, PII redaction, grounding checks</li>
+<li>Defense against prompt attacks, which is complementary to IAM and encryption (<a href="../domains/05-security-governance-compliance.html">domain 5</a>)</li>
+<li>Guardrails vs IAM: guardrails control content; IAM controls access</li>
+</ul>
+
+</main>
+<footer>Study aid based on the AWS AIF-C01 exam guide v1.4. Verify against AWS docs.</footer>
+</body>
+</html>

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Overview | AIF-C01 Study Guide</title>
+<link rel="stylesheet" href="assets/style.css">
+<script src="assets/search-index.js"></script>
+<script src="assets/app.js" defer></script>
+</head>
+<body data-root="">
+<main>
+<span class="tag">AWS Certified AI Practitioner</span>
+<h1>AIF-C01 Study Guide</h1>
+<p class="lead">Notes, cheat-sheets, quizzes, and a gap map for the AIF-C01 exam. Content follows the official exam guide v1.4. It is a study aid, so verify against AWS docs if something looks off.</p>
+
+<div class="callout">
+<p><b>Exam facts:</b> 65 questions (50 scored, 15 unscored) · passing score 700 / 1000 · no penalty for guessing · compensatory scoring, so you don't need to pass each domain on its own.</p>
+</div>
+
+<h2>The study loop</h2>
+<pre><code>cheat-sheets -&gt; practice exam -&gt; gap map -&gt; targeted notes + quizzes -&gt; labs -&gt; mock exam -&gt; repeat</code></pre>
+
+<h2>Exam domains</h2>
+<p class="small">Progress and quiz scores are saved in this browser only.</p>
+<div class="grid">
+  <a class="card" href="domains/01-ai-ml-fundamentals.html" data-domain-page="01-ai-ml-fundamentals" data-tasks="3" data-questions="15">
+    <span class="tag">Domain 1 · 20%</span><h3>Fundamentals of AI and ML</h3>
+    <p>ML types, use cases, the ML lifecycle, metrics.</p>
+    <div class="bar"><span></span></div><p class="stat small"></p>
+  </a>
+  <a class="card" href="domains/02-generative-ai-fundamentals.html" data-domain-page="02-generative-ai-fundamentals" data-tasks="3" data-questions="15">
+    <span class="tag">Domain 2 · 24%</span><h3>Fundamentals of Generative AI</h3>
+    <p>Tokens, embeddings, FM lifecycle, AWS GenAI services.</p>
+    <div class="bar"><span></span></div><p class="stat small"></p>
+  </a>
+  <a class="card" href="domains/03-foundation-model-applications.html" data-domain-page="03-foundation-model-applications" data-tasks="4" data-questions="15">
+    <span class="tag">Domain 3 · 28%</span><h3>Applications of Foundation Models</h3>
+    <p>RAG, prompting, fine-tuning, evaluation. The biggest domain.</p>
+    <div class="bar"><span></span></div><p class="stat small"></p>
+  </a>
+  <a class="card" href="domains/04-responsible-ai.html" data-domain-page="04-responsible-ai" data-tasks="2" data-questions="16">
+    <span class="tag">Domain 4 · 14%</span><h3>Guidelines for Responsible AI</h3>
+    <p>Bias, fairness, explainability, Guardrails, Clarify.</p>
+    <div class="bar"><span></span></div><p class="stat small"></p>
+  </a>
+  <a class="card" href="domains/05-security-governance-compliance.html" data-domain-page="05-security-governance-compliance" data-tasks="2" data-questions="15">
+    <span class="tag">Domain 5 · 14%</span><h3>Security, Compliance, and Governance</h3>
+    <p>IAM, KMS, Macie, Artifact, Audit Manager, compliance.</p>
+    <div class="bar"><span></span></div><p class="stat small"></p>
+  </a>
+</div>
+
+<h2>Quick reference</h2>
+<div class="grid">
+  <a class="card" href="cheatsheets/services.html"><h3>AWS services cheat-sheet</h3><p>Match a use case to the right service, with "not to be confused with" notes.</p></a>
+  <a class="card" href="cheatsheets/glossary.html"><h3>Glossary</h3><p>Core AI/ML and generative AI terms in plain language.</p></a>
+  <a class="card" href="practice/exam.html"><h3>Practice exam</h3><p>Timed multiple choice sampled by domain weight, with a per-domain breakdown.</p></a>
+  <a class="card" href="tracker/gap-map.html"><h3>Gap map</h3><p>Enter practice-exam scores and get a ranked study list.</p></a>
+</div>
+
+<h2>Hands-on labs</h2>
+<p class="small">Optional, with a small AWS cost. Not yet verified against the live console, so console labels may differ.</p>
+<div class="grid">
+  <a class="card" href="labs/01-prompting.html"><h3>Lab 1 · Prompting</h3><p>Bedrock playground: zero/few-shot, temperature, injection.</p></a>
+  <a class="card" href="labs/02-knowledge-base-rag.html"><h3>Lab 2 · Knowledge base (RAG)</h3><p>Build a RAG app. Watch the vector store cost and clean up.</p></a>
+  <a class="card" href="labs/03-guardrails.html"><h3>Lab 3 · Guardrails</h3><p>Filters, denied topics, PII masking.</p></a>
+</div>
+
+<h2>Schedule</h2>
+<p>Days are relative to the practice exam (Day 0). Shift them if dates move, and compress or stretch Phase 2 to fit the real exam date.</p>
+
+<h3>Phase 1: before the practice exam (about 2 days)</h3>
+<div class="steps">
+  <div class="step"><b>Day -2</b>Skim the <a href="cheatsheets/services.html">services cheat-sheet</a>. Don't start labs yet.</div>
+  <div class="step"><b>Day -1</b>Skim the <a href="cheatsheets/glossary.html">glossary</a>, then re-skim services. Under an hour a day is enough, because the practice exam is your diagnostic.</div>
+</div>
+
+<h3>Phase 2: after the practice exam (about 12 days)</h3>
+<div class="steps">
+  <div class="step"><b>Day 0</b>Fill in the <a href="tracker/gap-map.html">gap map</a>: scores per domain and the topics you missed. After each run of the in-site <a href="practice/exam.html">practice exam</a>, "Save to gap map" does this for you.</div>
+  <div class="step"><b>Days 1-3</b>Study the top-ranked domain's notes, then do its quiz.</div>
+  <div class="step"><b>Days 4-6</b>Next two ranked domains.</div>
+  <div class="step"><b>Days 7-8</b>Labs, starting with Domain 3 (prompting, knowledge base, guardrails).</div>
+  <div class="step"><b>Day 9</b>Second practice exam or timed mock. Add it as a new attempt in the gap map.</div>
+  <div class="step"><b>Days 10-11</b>Re-study anything still weak.</div>
+  <div class="step"><b>Day 12</b>Second timed mock if time allows, then light cheat-sheet review only.</div>
+  <div class="step"><b>Day 13</b>Rest. Brief glossary review, check exam logistics.</div>
+  <div class="step"><b>Day 14</b>Real exam.</div>
+</div>
+<p class="small">Domains 2 and 3 make up 52% of the exam, so lean on them if you're torn.</p>
+</main>
+<footer>Study aid based on the AWS AIF-C01 exam guide v1.4. Search index is generated: after editing content run <code>node tools/build-search-index.js</code>.</footer>
+</body>
+</html>
